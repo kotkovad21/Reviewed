@@ -1,0 +1,283 @@
+:root {
+  --lighter-color: #feabab;
+  --light-color: #e16162;
+  --middle-color: #cc2b52;
+  --dark-color: #af1740;
+  --darker-color: #740938;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  min-height: 100vh;
+}
+
+main{
+  background-color: var(--lighter-color);
+}
+
+.insert{
+    padding: 3rem 0 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+form{
+    padding: 2.5rem;
+    margin: auto;
+    background-color: rgb(255, 228, 228);
+    max-width: 800px;
+    width: 50%;
+    border-radius: 20px;
+    border: 5px solid var(--dark-color);
+    box-shadow: 12px 12px 0px var(--light-color); 
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+} 
+
+.form-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+label{
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--darker-color);
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  height: 4rem;
+  border-radius: 8px;
+  border: 4px solid var(--dark-color);
+  background-color: var(--lighter-color);
+  box-shadow: 5px 5px 0px var(--light-color); 
+  padding: 1rem;
+  font-family: inherit;
+  color: var(--darker-color);
+  outline: none;
+  transition: background-color 0.2s;
+  margin: auto;
+}
+
+.text-area-container{
+  max-width: 70vw;
+}
+
+#review-text {
+  width: 100%;
+  resize: vertical;
+  max-width: 100%;
+  box-sizing: border-box;
+  max-height: 12rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(116, 9, 56, 0.5);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: var(--light-color); 
+  box-shadow: 5px 5px 0px var(--dark-color); 
+  border: 4px solid var(--darker-color);
+  color: rgb(255, 228, 228);
+} 
+
+.currency{
+  border: 4px solid var(--dark-color);
+  background-color: var(--lighter-color);
+  box-shadow: 5px 5px 0px var(--light-color); 
+  height: 4rem;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 3rem;
+  color: var(--darker-color);
+  font-size: 0.9rem;
+}
+
+.currency-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.amount-input{
+  width: 80%;
+}
+
+.star-rating{
+  border: 0;
+  margin: auto;
+}
+
+.stars {
+  display: flex;
+  flex-direction: row-reverse; /* Důležité pro výběr hvězdiček */
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.stars input[type="radio"] {
+  display: none; /* Skryje ošklivá kolečka */
+}
+
+.stars label .material-symbols-outlined{
+  cursor: pointer;
+  color: var(--darker-color);
+  transition: color 0.2s;
+  font-size: 45px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+
+.stars label:hover .material-symbols-outlined,
+.stars label:hover ~ label .material-symbols-outlined,
+.stars input[type="radio"]:checked ~ label .material-symbols-outlined {
+  color: var(--dark-color);
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.file-upload-area {
+  background-color: var(--lighter-color);
+  border-radius: 12px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--darker-color);
+  cursor: pointer;
+  position: relative;
+  border: 4px solid var(--dark-color);
+  box-shadow: 5px 5px 0px var(--light-color); 
+}
+
+.file-upload-area input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+button.upload {
+  background-color: var(--light-color);
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: center; /* Vycentrování tlačítka */
+  margin-top: 2rem;
+  border: 4px solid var(--darker-color);
+  box-shadow: 5px 5px 0px var(--middle-color); 
+  transition: transform 0.1s;
+}
+
+button.upload :active {
+  transform: scale(0.98);
+}
+
+/* 1. Breakpoint: 1100px (Laptopy a tablety na šířku) */
+@media (max-width: 1100px) {
+  form {
+    width: 80%;
+    max-width: 90vw;
+  }
+
+  .text-area-container {
+    max-width: 100%;
+  }
+}
+
+/* 2. Breakpoint: 900px (Tablety na výšku) */
+@media (max-width: 900px) {
+  form {
+    width: 90%;
+    padding: 2rem; /* Mírné zmenšení paddingu */
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .star-rating {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .amount-input{
+    width: 91%;
+  }
+}
+
+/* 3. Breakpoint: 600px (Mobily) */
+@media (max-width: 600px) {
+  .insert {
+    padding: 1rem 0;
+  }
+
+  form {
+    width: 95%;
+    padding: 1.5rem;
+   
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    height: auto;
+    font-size: 16px;
+  }
+
+  .amount-input{
+    width: 87%;
+  }
+
+  .currency {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .file-upload-area {
+    height: 150px;
+  }
+
+  button.upload {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .stars {
+    gap: 0.5rem;
+  }
+  
+  .stars label .material-symbols-outlined {
+    font-size: 40px;
+  }
+}

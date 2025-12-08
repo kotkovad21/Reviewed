@@ -1,0 +1,377 @@
+:root {
+  --white-color: rgb(255, 228, 228);
+  --lighter-color: #feabab;
+  --light-color: #e16162;
+  --middle-color: #cc2b52;
+  --dark-color: #af1740;
+  --darker-color: #740938;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  min-height: 100vh;
+  background-color: var(--lighter-color);
+}
+.section-basic {
+  background-color: white;
+  margin: 3rem 0 5rem 0;
+  position: relative;
+  width: 100%;
+}
+
+/* Vytvoření vrstvy s obrázkem na pozadí*/
+.section-basic::after {
+  content: "";
+  background-image: url(../media/fotky/Gemini_Generated_Image_rmn3awrmn3awrmn3.png);
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  z-index: 0; /* Nejnižší vrstva */
+}
+
+/* Barevný pruh na pozadí */
+.section-basic::before {
+  content: "";
+  background-color: var(--lighter-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.basic-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--white-color);
+  padding: 4rem;
+  gap: 2rem;
+  width: 70%;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+  border-radius: 10px;
+  border: 5px solid var(--dark-color);
+  box-shadow: 12px 12px 0px var(--light-color);
+}
+
+.profile-photo {
+  position: relative;
+}
+
+.profile-photo img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 7px solid var(--dark-color);
+  outline: 7px solid var(--light-color);
+}
+
+.bio {
+  max-width: 40vw;
+  position: relative;
+}
+
+.bio h3 {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  color: var(--dark-color);
+}
+
+.bio h4 {
+  font-size: 1.1rem;
+  color: var(--darker-color);
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 25px;
+  letter-spacing: 2px;
+  color: var(--darker-color);
+  filter: drop-shadow(3px 4px 2px var(--middle-color));
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+  max-width: 70vw;
+  margin: auto;
+}
+
+.private-info {
+  background-color: var(--lighter-color);
+  margin: auto;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  background-color: var(--white-color);
+  max-width: 40vw;
+  padding: 4rem;
+  border-radius: 10px;
+  box-shadow: 12px 12px 0px var(--light-color);
+  border: 5px solid var(--dark-color);
+}
+
+.label,
+.data {
+  padding: 1.2rem 1rem;
+  font-size: 1rem;
+  border-top: 4px solid var(--dark-color);
+}
+
+.label {
+  font-weight: 600;
+  color: var(--dark-color);
+  text-align: right;
+  padding-right: 2rem;
+}
+
+.data {
+  color: var(--darker-color);
+  text-align: left;
+}
+
+.info-grid > :nth-child(1),
+.info-grid > :nth-child(2) {
+  border-top: none;
+}
+
+.profile-settings {
+  border: 5px solid var(--darker-color);
+  box-shadow: 12px 12px 0px var(--dark-color);
+  border-radius: 10px;
+  margin: auto;
+  background-color: var(--middle-color);
+}
+
+.account-settings {
+  margin: 5rem auto 5rem auto;
+  max-width: 80%;
+  height: 10rem;
+  background-color: var(--middle-color);
+  border: 5px solid var(--darker-color);
+  box-shadow: 12px 12px 0px var(--dark-color);
+  border-radius: 10px;
+}
+
+.profile-settings h3,
+.account-settings h3 {
+  text-align: center;
+  padding: 1rem;
+  font-size: 23px;
+  width: 100%;
+  color: var(--lighter-color);
+  border-bottom: 5px solid var(--darker-color);
+  filter: drop-shadow(0px 4px 2px var(--dark-color));
+}
+
+.profile-settings-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 20vw;
+  margin: auto;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.profile-settings-grid .setting,
+.account-settings-grid .setting {
+  border-radius: 10px;
+  text-align: center;
+  font-size: 20px;
+  background-color: var(--light-color);
+  box-shadow: 5px 5px 0px var(--darker-color);
+  border: 4px solid var(--dark-color);
+  transition: transform 0.2s ease;
+}
+
+.profile-settings-grid .setting {
+  width: 15vw;
+  padding: 0.5rem;
+}
+
+.account-settings-grid .setting {
+  max-height: 3rem;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  max-width: 20vw;
+}
+
+.setting:hover {
+  transform: translateY(-2px);
+}
+
+.account-settings-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  height: 5rem;
+  margin: auto;
+}
+
+@media (max-width: 1100px) {
+  .section-basic::before{
+    background-color: var(--lighter-color);
+  }
+  .section-basic::after{
+    display: none;
+  }
+
+  .basic-info,
+  .content,
+  .account-settings {
+    width: 90%;
+    max-width: 95%;
+  }
+
+  .info-grid{
+    padding: 0;
+  }
+
+  .profile-settings-grid{
+    gap: 1rem;
+  }
+
+  .account-settings {
+    height: auto; 
+    padding-bottom: 2rem;
+    max-width: 70%
+  }
+  
+  .account-settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+    gap: 1rem;
+    padding: 1rem;
+    margin: auto;
+  }
+
+  .account-settings-grid .setting {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* 2. Breakpoint: 900px (Tablety na výšku) */
+@media (max-width: 900px) {
+  .basic-info {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .bio {
+    max-width: 80%;
+    text-align: center;
+  }
+
+  .name {
+    align-items: center;
+  }
+
+  .info-grid {
+    max-width: 100%;
+  }
+
+  .profile-settings-grid {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .profile-settings-grid .setting {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+}
+
+/* 3. Breakpoint: 600px (Mobily) */
+@media (max-width: 600px) {
+  .section-basic {
+    max-width: 80%;
+    margin: auto;
+  }
+
+  .basic-info {
+    width: 100%;
+  }
+
+  .profile-photo img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .content {
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .private-info{
+    width: 80%;
+  }
+
+  .info-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .label {
+    border-top: none;
+    padding:  .5rem 0 0 .5rem;
+    text-align: left;
+    color: var(--middle-color);
+    font-size: 0.9rem;
+  }
+
+  .data {
+    border-top: none;
+    padding: .5rem;
+    border-bottom: 3px solid var(--dark-color);
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .profile-settings {
+    width: 80%;
+  }
+
+  .account-settings{
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .account-settings-grid .setting{
+    margin: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+} 

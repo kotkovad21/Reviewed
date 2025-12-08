@@ -1,0 +1,218 @@
+:root {
+  --white-color: rgb(255, 228, 228);
+  --lighter-color: #feabab;
+  --light-color: #e16162;
+  --middle-color: #cc2b52;
+  --dark-color: #af1740;
+  --darker-color: #740938;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  min-height: 100vh;
+}
+
+main {
+  background-color: var(--lighter-color);
+}
+
+.filters {
+  background-color: var(--lighter-color);
+  display: flex;
+  flex-direction: row;
+  max-width: 80vw;
+  justify-content: space-around;
+  margin: auto;
+  padding: 1rem;
+}
+
+.filters-button {
+  border: none;
+  background-color: var(--lighter-color);
+  color: var(--middle-color);
+}
+
+.filters-button span {
+  font-size: 60px;
+  filter: drop-shadow(5px 3px 3px var(--light-color));
+}
+
+.filter,
+select {
+  font-size: 17px;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  background-color: var(--white-color);
+  border: none;
+  border: 3px solid var(--middle-color);
+  box-shadow: 6px 6px 0px var(--light-color);
+  height: 3rem;
+  font-family: inherit;
+}
+
+.filter-remove {
+  border: none;
+  background-color: var(--white-color);
+  color: var(--darker-color);
+  padding-bottom: 5px;
+}
+
+.filter-name,
+select {
+  color: var(--dark-color);
+}
+
+.visits {
+  padding: 0 0 5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 2rem;
+  max-width: 70vw;
+}
+
+.card {
+  background-color: var(--white-color);
+  max-width: 20vw;
+  width: 16vw;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 12px 12px 0px var(--light-color);
+  color: black;
+  transition: transform 0.2s;
+  border: 5px solid var(--middle-color);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card-image-placeholder img {
+  background-color: var(--middle-color);
+  width: 100%;
+  height: 17rem;
+  display: block;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  border: 5px solid var(--darker-color);
+}
+
+.card-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: black;
+}
+
+.rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  color: var(--darker-color);
+}
+
+.show-more {
+  text-decoration: none;
+  color: black;
+  font-size: 1.06rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 400;
+}
+
+.show-more:hover {
+  text-decoration: underline;
+}
+/* 1. Breakpoint: 1100px (Menší laptopy a tablety na šířku) */
+@media (max-width: 1100px) {
+  .cards-grid {
+    max-width: 90vw;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1.5rem;
+  }
+
+  .filters {
+    max-width: 95vw;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .card-image-placeholder img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+  }
+}
+
+/* 2. Breakpoint: 900px (Tablety na výšku) */
+@media (max-width: 900px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters {
+    padding: 1rem 0.5rem;
+  }
+
+  .filter,
+  select {
+    width: 45%;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  .filters-button {
+    display: none;
+  }
+
+  .card-image-placeholder img {
+    height: 20rem;
+  }
+}
+
+/* 3. Breakpoint: 600px (Mobily) */
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 90vw;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .filter,
+  select {
+    width: 100%;
+    height: 3.5rem;
+  }
+
+  .card-image-placeholder img {
+    height: 15rem;
+  }
+}
