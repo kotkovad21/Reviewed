@@ -45,7 +45,8 @@ main {
 
 .filter,
 select {
-  font-size: 17px;
+  font-weight: 600;
+  font-size: 1rem;
   padding: 0.5rem;
   border-radius: 10px;
   margin: auto;

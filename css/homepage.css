@@ -77,19 +77,20 @@ main {
   border-radius: 5px;
   border: 5px solid var(--darker-color);
   box-shadow: 12px 12px 0 var(--dark-color);
+  text-align: center;
 }
 
 .about-us-text h2 {
   margin-top: 0;
   margin-bottom: 20px;
-  font-size: 2rem;
-  color: #000;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--dark-color);
 }
 
 .about-us-text p {
-  line-height: 1.6;
   margin-bottom: 15px;
-  color: #333;
+  font-size: 1.2rem;
 }
 
 .popular-section {
@@ -156,11 +157,12 @@ main {
   max-width: 15vw;
 }
 .popular-bottom {
-  color: var(--darker-color);
+  color: var(--white-color);
   text-decoration: 0;
   padding: 0.5rem 1rem;
   align-self: flex-end;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 .popular-bottom:hover {
   color: black;
@@ -187,15 +189,29 @@ main {
   text-align: center;
   font-size: 2rem;
 }
-.grid-cards-review {
+.reviews-container{
   display: flex;
-  justify-content: space-around;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin: 2rem;
 }
-
+.grid-cards-review {
+  display: flex;             /* Karty se řadí vedle sebe */
+  flex-wrap: nowrap;         /* Zakáže zalamování na nový řádek */
+  overflow-x: auto;          /* Zapne vodorovný posuvník, když je obsah příliš široký */
+  gap: 2rem;                 /* Mezera mezi kartami */
+  padding: 2rem;             /* Odsazení, aby stíny karet nebyly oříznuté */
+  max-width: 55vw;
+  scroll-snap-type: x mandatory; /* Povinné přichytávání na ose X */
+  -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
+  
+  /* --- Skrytí posuvníku (volitelné) --- */
+  /* Pokud chceš posuvník vidět, následující řádky smaž */
+  scrollbar-width: none;  /* Firefox */
+}
+.grid-cards-review::-webkit-scrollbar {
+  display: none;
+}
 .card {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
   background-color: var(--white-color);
   max-width: 20vw;
   width: 16vw;
