@@ -54,7 +54,7 @@ select {
   align-items: center;
   background-color: var(--white-color);
   border: none;
-  border: 3px solid var(--middle-color);
+  border: 4px solid var(--middle-color);
   box-shadow: 6px 6px 0px var(--light-color);
   height: 3rem;
   font-family: inherit;
