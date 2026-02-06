@@ -87,6 +87,7 @@ justify-content: space-around;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  justify-content: center;
 }
 .text{
   font-weight: 700;
@@ -100,6 +101,7 @@ justify-content: space-around;
 }
 .price-row{
   font-size: 1rem;
+margin: auto;
 }
 .spend{
   font-weight: 700;
@@ -126,13 +128,35 @@ justify-content: space-around;
   cursor: pointer;
 }
 .photo-column{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
 }
 .image{
-  background-color: var(--middle-color);
   width: 16vw;
   height: 17rem;
-  border-radius: 4px;
-  margin-bottom: 12px;
+  border-radius: 8px;
   object-fit: cover;
   border: 5px solid var(--darker-color);
+  box-shadow: 10px 10px 0px var(--middle-color); 
+  cursor: pointer;
+}
+.images{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 16vw;
+  flex-wrap: nowrap;         /* Zakáže zalamování na nový řádek */
+  overflow-x: auto;          /* Zapne vodorovný posuvník, když je obsah příliš široký */
+  scroll-snap-type: x mandatory; /* Povinné přichytávání na ose X */
+  -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
+  scrollbar-width: none;  /* Firefox */
+  cursor: pointer;
+}
+.image-small{
+  width: 4vw;
+  height: 5rem;
+  border-radius: 4px;
+  object-fit: cover;
 }
