@@ -23,6 +23,7 @@ main {
   border-radius: 20px;
   border: 5px solid var(--dark-color);
   box-shadow: 12px 12px 0px var(--light-color); 
+  padding-bottom: 2rem;
 }
 
 .top-row{
@@ -66,10 +67,72 @@ main {
   gap: .5rem;
 }
 .label{
-  font-weight: 600;
-  color: var(--darker-color);
+  font-weight: 700;
+  color: var(--dark-color);
+  font-size: 1rem;
 }
 .value{
   font-weight: 800;
-  color: var(--dark-color);
+  color: var(--darker-color);
+}
+
+.main-content{
+display: flex;
+justify-content: space-around;
+}
+
+.text-column{
+  max-width: 48vw;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.text{
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--darker-color);
+  word-wrap: break-word;
+  border: 5px solid var(--middle-color);
+  box-shadow: 10px 10px 0px var(--lighter-color); 
+  border-radius: 8px;
+  padding: 2rem;
+}
+.price-row{
+  font-size: 1rem;
+}
+.spend{
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--darker-color);
+}
+
+.tags{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+}
+.tag{
+  background-color: var(--lighter-color);
+  color: var(--darker-color);
+  padding: .5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 4px solid var(--darker-color);
+  box-shadow: 5px 5px 0px var(--middle-color); 
+  cursor: pointer;
+}
+.photo-column{
+}
+.image{
+  background-color: var(--middle-color);
+  width: 16vw;
+  height: 17rem;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  border: 5px solid var(--darker-color);
 }
