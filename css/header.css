@@ -150,14 +150,11 @@ h1 {
   padding: 0.3rem 0.5rem 0.7rem 0.5rem;
   font-size: 1.3rem;
   font-weight: 500;
-  transition: background-color 0.3s;
+  transition: transform 0.2s;
 }
 
 .nav-drop a:hover {
-  background-color: var(--light-color);
-  border: 4px solid var(--darker-color);
-  color: var(--white-color);
-  box-shadow: 5px 5px 0px var(--dark-color);
+  transform: scale(1.05);
 }
 
 .material-symbols-outlined {
