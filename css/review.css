@@ -127,8 +127,7 @@ color: var(--darker-color);
   color: var(--darker-color);
   background-color: var(--lighter-color);
   word-wrap: break-word;
-  border: 5px solid var(--middle-color);
-  box-shadow: 10px 10px 0px var(--darker-color); 
+  box-shadow: 10px 10px 0px var(--middle-color); 
   border-radius: 8px;
 }
 /* Text uprostřed */
@@ -210,8 +209,8 @@ margin: auto;
 
 }
 .price-row .label{
-  border: 4px solid var(--middle-color);
-  box-shadow: 6px 6px 0px var(--lighter-color); 
+  background-color: var(--lighter-color);
+  box-shadow: 6px 6px 0px var(--light-color); 
   padding: .5rem;
   border-radius: 8px;
 }
@@ -220,8 +219,7 @@ margin: auto;
   font-size: 1rem;
   color: var(--darker-color);
   background-color: var(--lighter-color);
-  border: 4px solid var(--dark-color);
-  box-shadow: 6px 6px 0px var(--light-color); 
+  box-shadow: 6px 6px 0px var(--middle-color); 
   padding: .5rem;
   border-radius: 8px;
 }
