@@ -38,13 +38,12 @@ footer {
 }
 
 .footer-col li a {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--dark-color);
   text-decoration: none;
   transition: color 0.3s;
   font-size: 0.9rem;
-  opacity: 0.8;
+  font-weight: 500;
   line-height: 1.6;
-  filter: drop-shadow(1px 2px var(--light-color));
 }
 
 .footer-col {
@@ -52,14 +51,14 @@ footer {
 }
 
 .footer-col ul li a:hover {
-  color: var(--light-color); /* Při najetí zrůžoví */
+  color: var(--darker-color);
 }
 
 .footer-col h4 {
   font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 1rem;
-  color: white;
-  filter: drop-shadow(1px 2px var(--light-color));
+  color: var(--darker-color);
 }
 
 footer img {
