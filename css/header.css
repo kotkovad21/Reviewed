@@ -55,7 +55,7 @@ header {
   transform: scale(1.02);
 }
 
-h1 {
+.page-name {
   flex-grow: 1;
   text-align: center;
   color: var(--middle-color);
@@ -149,7 +149,7 @@ h1 {
   border-radius: 10px;
   padding: 0.3rem 0.5rem 0.7rem 0.5rem;
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: transform 0.2s;
 }
 

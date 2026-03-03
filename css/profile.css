@@ -244,6 +244,9 @@ body {
   .section-basic::after{
     display: none;
   }
+  .basic-info{
+    gap: 1rem;
+  }
 
   .basic-info,
   .content,
@@ -302,7 +305,9 @@ body {
   .info-grid {
     max-width: 100%;
   }
-
+    .content{
+    margin-top: 15rem;
+  }
   .profile-settings-grid {
     max-width: 100%;
     width: 100%;
@@ -323,6 +328,7 @@ body {
 
   .basic-info {
     width: 100%;
+    margin-top: 2rem;
   }
 
   .profile-photo img {
@@ -333,7 +339,7 @@ body {
   .content {
     flex-direction: column;
     gap: 3rem;
-    margin-top: 2rem;
+    margin-top: 15rem;
   }
 
   .private-info{

@@ -23,7 +23,7 @@
                 <a href="homepage.html" class="logo">Reviewed</a>
             </div>
 
-            <h1>Restaurant</h1>
+            <h1 class="page-name">Restaurant</h1>
 
             <nav class="nav-explore">
                 <a href="explore.html">Restaurants</a>
@@ -63,7 +63,7 @@
 
                 <a href="explore.html">
                     <span class="material-symbols-outlined">
-                        search
+                        explore
                     </span>
                     Explore
                 </a>
@@ -73,6 +73,13 @@
                         apps
                     </span>
                     My visits
+                </a>
+                
+                <a href="saved.html">
+                    <span class="material-symbols-outlined">
+                        bookmark
+                    </span>
+                    Saved
                 </a>
                 
                 <a href="friends.html">
@@ -85,145 +92,293 @@
         </div>
     </header>
     <main>
-        <article class="place-card">
-            <h1>Grand Cafe Prague</h1>
-            <p>Luxurious cafe in the center of Prague</p>
-            <div class="rating">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
+        <section class="place-card">
+            <div class="heading">
+                <h1 class="name">Grand Cafe Prague</h1>
+                <div class="rating">
+                    <span class="material-symbols-outlined">star</span>
+                    <span class="material-symbols-outlined">star</span>
+                    <span class="material-symbols-outlined">star</span>
+                    <span class="material-symbols-outlined">star</span>
+                    <span class="material-symbols-outlined">star</span>
+                </div>
+                <p class="bio">Luxurious cafe in the center of Prague</p>
             </div>
-            <div class="Contact">
-                <p class="phone">
-                    +420 222 111 001
-                </p>
-                <a class="url">
-                    www.grandcafepraha.cz
-                </a>
-                <div class="adress">
-                    <p>Praha</p>
-                    <p>Václavské náměstí</p>
-                    <p>812</p>
-                    <p>11000</p>
+
+            <div class="contact">
+                <div class="phone">
+                    <span class="material-symbols-outlined">
+                        call
+                    </span>
+                    <p>
+                        +420 222 111 001
+                    </p>
+                </div>
+
+                <div class="link">
+                    <span class="material-symbols-outlined">
+                        link_2
+                    </span>
+                    <a class="url">
+                        www.grandcafepraha.cz
+                    </a>
+                </div>
+
+                <div class="location">
+                    <span class="material-symbols-outlined">
+                        location_on
+                    </span>
+
+                    <div class="address">
+                        <div class="address-line">
+                            <p>Václavské náměstí</p>
+                            <p>812</p>
+                        </div>
+                        
+                        <div class="address-line">
+                            <p>Praha</p>
+                            <p>11000</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="opening">
+                <p>Open:</p>
+                <div class="open-line">
+                    <p>
+                        Mon-Fri: 
+                    </p>
+                    <p>
+                        08:00-21:00
+                    </p>
+                </div>
+                <div class="open-line">
+                    <p>
+                        Sat-Sun: 
+                    </p>
+                    <p>
+                        09:00-22:00
+                    </p>
                 </div>
             </div>
+            <section class="tags-section">
+                    <ul class="tags">
+                        <li class="tag">Good Service</li>
+                        <li class="tag">Luxury</li>
+                        <li class="tag">Quiet</li>
+                        <li class="tag">Expensive</li>
+                        <li class="tag">Beautiful</li>
+                        <li class="tag">Coffee</li>
+                    </ul>
+                </section>
 
-            <p class="opening-hours">
-                Po-Ne: 08:00-22:00
-            </p>
-            <h3>
-                Photos from people
-            </h3>
-            <div class="photos">
-                <img src="../media/fotky/albert-YYZU0Lo1uXE-unsplash.jpg" alt="Terrace view at The Lakefront Veranda" >
-                <img src="../media/fotky/albert-YYZU0Lo1uXE-unsplash.jpg" alt="Terrace view at The Lakefront Veranda" >
-                <img src="../media/fotky/albert-YYZU0Lo1uXE-unsplash.jpg" alt="Terrace view at The Lakefront Veranda" >
-                <img src="../media/fotky/albert-YYZU0Lo1uXE-unsplash.jpg" alt="Terrace view at The Lakefront Veranda" >
-            </div>
-            <h3>Reviews</h3>
-            <div class="reviews">
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/ambitious-studio-rick-barrett-QjUY7auDzUQ-unsplash.jpg" alt="Cocktail at Bar Xyz">
+            <section class="photo-section">
+                <h3 class="label">
+                    Photos from people
+                </h3>
+                <div class="photos">
+                    <div class="photo">
+                        <img src="../media/fotky/kateryna-senkevych-N7qAgJjCMss-unsplash.jpg" alt="grand cafe" >
+                        <div class="author-row">
+                            <p>By:</p>
+                            <h4>Joe Doe</h4>
+                        </div> 
                     </div>
+                    <div class="photo">
+                        <img src="../media/fotky/max-titov-n_oT5G2JAp4-unsplash.jpg" alt="grand cafe" >
+                        <div class="author-row">
+                            <p>By:</p>
+                            <h4>Joe Doe</h4>
+                        </div> 
+                    </div>
+                    <div class="photo">
+                        <img src="../media/fotky/domenico-adornato-ur0W7u3DWXQ-unsplash.jpg" alt="grand cafe" >
+                        <div class="author-row">
+                            <p>By:</p>
+                            <h4>Joe Doe</h4>
+                        </div>                         
+                    </div>
+                    <div class="photo">
+                        <img src="../media/fotky/aleksandar-andreev-mgdhoWfekZU-unsplash.jpg" alt="grand cafe" >
+                        <div class="author-row">
+                            <p>By:</p>
+                            <h4>Joe Doe</h4>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+            <section class="reviews-section"> 
+                <h3 class="label">Reviews</h3>
+                <div class="reviews">
+                    <article class="card">
+                        <div class="card-image-placeholder">
+                            <img src="../media/fotky/kateryna-senkevych-N7qAgJjCMss-unsplash.jpg" alt="grand cafe" >
+                        </div>
+                        
+                        <div class="card-content">
+                            <h3>Grand Cafe Prague</h3>
+                            <div class="author-row">
+                                <p>By:</p>
+                                <h4>Joe Doe</h4>
+                            </div>                        
+                            <div class="rating-review">
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                            </div>
+                            
+                            <a href="review.html" class="show-more">Show more</a>
+                        </div>
+                    </article>
                     
-                    <div class="card-content">
-                        <h3>Bar Xyz</h3>
-                        <div class="author-row">
-                            <p>By:</p>
-                            <h4>Joe Doe</h4>
-                        </div>                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
+                    <article class="card">
+                        <div class="card-image-placeholder">
                         </div>
-                        
-                        <a href="review.html" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/breakslow-E6RTpqvOasU-unsplash.jpg" alt="Breakfast at Cafe On Paper">
-                    </div>
-                   
-                    <div class="card-content">
-                        <h3>Cafe On Paper</h3>
-                        <div class="author-row">
-                            <p>By:</p>
-                            <h4>Joe Doe</h4>
-                        </div>                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-                        
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/stefan-johnson-xIFbDeGcy44-unsplash.jpg" alt="Meal at Restaurant Abcde">
-                    </div>
                     
-                    <div class="card-content">
-                        <h3>Restaurant Abcde</h3>
-                        <div class="author-row">
-                            <p>By:</p>
-                            <h4>Joe Doe</h4>
-                        </div>                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
+                        <div class="card-content">
+                            <h3>Grand Cafe Prague</h3>
+                            <div class="author-row">
+                                <p>By:</p>
+                                <h4>Joe Doe</h4>
+                            </div>                        
+                            <div class="rating-review">
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                            </div>
+                            
+                            <a href="#" class="show-more">Show more</a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-image-placeholder">
+                            <img src="../media/fotky/max-titov-n_oT5G2JAp4-unsplash.jpg" alt="grand cafe" >
+                        </div>
+                    
+                        <div class="card-content">
+                            <h3>Grand Cafe Prague</h3>
+                            <div class="author-row">
+                                <p>By:</p>
+                                <h4>Joe Doe</h4>
+                            </div>                        
+                            <div class="rating-review">
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                            </div>
+                            
+                            <a href="#" class="show-more">Show more</a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-image-placeholder">
+                            <img src="../media/fotky/domenico-adornato-ur0W7u3DWXQ-unsplash.jpg" alt="grand cafe" >
                         </div>
                         
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-            </div>
-        </article>
+                        <div class="card-content">
+                            <h3>Grand Cafe Prague</h3>
+                            <div class="author-row">
+                                <p>By:</p>
+                                <h4>Joe Doe</h4>
+                            </div>                        
+                            <div class="rating-review">
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                            </div>
+                            
+                            <a href="#" class="show-more">Show more</a>
+                        </div>
+                        
+                    </article>
+
+                    <article class="card">
+                        <div class="card-image-placeholder">
+                        </div>
+                    
+                        <div class="card-content">
+                            <h3>Grand Cafe Prague</h3>
+                            <div class="author-row">
+                                <p>By:</p>
+                                <h4>Joe Doe</h4>
+                            </div>                        
+                            <div class="rating-review">
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                                <span class="material-symbols-outlined">
+                                    star
+                                </span>
+                            </div>
+                            
+                            <a href="#" class="show-more">Show more</a>
+                        </div>
+                    </article>
+                    
+                </div>
+            </section>
+        </section>
     </main>
     <footer>
         <div class="footer-content">

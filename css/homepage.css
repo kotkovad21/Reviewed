@@ -300,45 +300,29 @@ body {
 }
 /* 1. Breakpoint: Laptop / Malý desktop (max 1100px) */
 @media (max-width: 1100px) {
-  .grid-cards-popular,
-  .grid-cards-review {
-    flex-wrap: wrap;
-    justify-content: center;
+  .about-us-section{
+    padding-bottom: 0;
   }
-  .popularcard p {
-    max-width: 100%;
-  }
-  .popularcard:last-child, 
-  .grid-cards-review .card:first-of-type{
-    display: none;
-  }
-  /* Karty budou ve dvou sloupcích (cca 45% šířky) */
-  .popularcard{
-    width: 45%;
-    max-width: 45%;
-    height: auto;
-    margin-bottom: 2rem;
+  .grid-cards-review{
+    max-width: 100vw;
   }
   .reviews{
-    max-width: 100%;
+    max-width: 97vw;
+    padding-top: 1rem;
   }
-  .card {
-    width: 45%;
-    height: auto;
-    margin-bottom: 2rem;
-    flex: 0 0 45%;
-    max-width: 45%;
+  .popular-section{
+    max-width: 90vw;
   }
-
-  .arrow {
-    display: none; /* Skryjeme šipky na tabletu a níže */
+  .popularcard{
+    max-width: 25vw;
+    max-height: 25rem;
+    text-align: center;
   }
-  /* Obrázky uvnitř karet se přizpůsobí */
-  .popularcard img,
-  .card-image-placeholder img {
-    width: 100%;
-    height: 15rem;
-    object-fit: cover;
+  .popularcard img{
+    width: 13rem;
+  }
+  .popularcard p{
+    display: none;
   }
 }
 
@@ -352,47 +336,56 @@ body {
     width: 95%;
     padding: 1rem;
   }
+  .arrow span{
+    display: none;
+  }
+  .grid-cards-review{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
   .card{
-    width: 40%;
-    max-width: 40%;
+    max-width: 25vw;
   }
-
-  .about-us-section {
-    padding: 2rem 0;
+  .popular-section h2{
+    font-size: 2rem;
   }
-  .popularcard{
-    max-width: 80%;
-    width: 80%;
+  .popularcard img{
+    width: 11rem;
+  }
+  .popularcard h3{
+    font-weight: 700;
+  }
+  .popular-section{
+    margin-top: 0;
   }
 }
 
 @media (max-width: 600px) {
+  .about-us-section{
+    height: 25rem;
+  }
   .about-us-stripe,
   .about-us-stripe-solid::before{
     display: none;
   }
-  .popularcard{
-    width: 100%;
-    max-width: 100%;
+  .reviews{
+    padding: 0;
   }
-  
-  .popularcard p {
-    max-width: 100%;
-  }
-  .popular-bottom{
-    margin: auto;
+  .grid-cards-review{
+    grid-template-columns: 1fr 1fr;
+    width: 100vw;
   }
   .card{
-    flex: 0 0 100%;
-    width: 0%;
-    max-width: 80%;
-    margin-bottom: 1.5rem;
+    max-width: 50rem;
   }
-  h2 {
-    font-size: 1.5rem;
-    text-align: center;
+  .card img{
+    width: 12.5rem;
   }
-  .arrow{
-    display: none;
+  .grid-cards-popular{
+    flex-direction: column;
+    align-items: center;
+  }
+  .popularcard{
+    max-width: 20rem;
   }
 }

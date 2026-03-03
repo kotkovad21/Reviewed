@@ -157,8 +157,8 @@ select {
   }
 
   .card {
-    width: 100%;
-    max-width: 100%;
+    width: 85%;
+    max-width: 85%;
   }
 
   .card-image-placeholder img {
@@ -170,9 +170,6 @@ select {
 
 /* 2. Breakpoint: 900px (Tablety na výšku) */
 @media (max-width: 900px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
   .filters {
     padding: 1rem 0.5rem;
@@ -188,16 +185,19 @@ select {
   .filters-button {
     display: none;
   }
-
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
   .card-image-placeholder img {
-    height: 20rem;
+    height: 15rem;
   }
 }
 
 /* 3. Breakpoint: 600px (Mobily) */
 @media (max-width: 600px) {
   .cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     max-width: 90vw;
   }
 

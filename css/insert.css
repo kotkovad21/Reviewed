@@ -136,13 +136,13 @@ textarea:focus {
 
 .stars {
   display: flex;
-  flex-direction: row-reverse; /* Důležité pro výběr hvězdiček */
+  flex-direction: row-reverse;
   justify-content: flex-end;
   gap: 1rem;
 }
 
 .stars input[type="radio"] {
-  display: none; /* Skryje ošklivá kolečka */
+  display: none; 
 }
 
 .stars label .material-symbols-outlined{
@@ -195,7 +195,7 @@ button.upload {
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
-  align-self: center; /* Vycentrování tlačítka */
+  align-self: center;
   margin-top: 2rem;
   border: 4px solid var(--darker-color);
   box-shadow: 5px 5px 0px var(--middle-color); 
@@ -222,7 +222,7 @@ button.upload :active {
 @media (max-width: 900px) {
   form {
     width: 90%;
-    padding: 2rem; /* Mírné zmenšení paddingu */
+    padding: 2rem;  
   }
 
   .form-grid {
@@ -244,7 +244,7 @@ button.upload :active {
 /* 3. Breakpoint: 600px (Mobily) */
 @media (max-width: 600px) {
   .insert {
-    padding: 1rem 0;
+    padding: 3rem 0;
   }
 
   form {

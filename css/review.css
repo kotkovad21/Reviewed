@@ -27,18 +27,42 @@ main {
   margin-bottom: 3rem;
 }
 
-.top-row{
+.heading-column{
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 5px solid var(--darker-color);
+  box-shadow: 10px 10px 0px var(--middle-color); 
+  margin: auto;
+  flex-grow: 1;
+
+}
+
+.top-row,
+.second-row
+{
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 2.5rem;
-  justify-content: space-around;
+  margin: auto;
+  margin-top: 2rem;
+}
+.top-row{
+  width: 90%;
+  align-content: center;
 }
 
+.second-row{
+  width: 50%;
+}
 .icons{
   display: flex;
   flex-direction: row;
   gap: .5rem;
+  flex-grow: 1;
 }
 
 .icons span{
@@ -51,47 +75,13 @@ color: var(--darker-color);
   border: none;
   background-color: var(--white-color);
 }
-.rating{
-  color: var(--darker-color);
-  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  display: flex;
-  justify-content: space-around;
-  gap: 1rem;
-}
-.rating span{
-  font-size: 2.5rem;
-}
-
-.heading-column{
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 5px solid var(--darker-color);
-  box-shadow: 10px 10px 0px var(--middle-color); 
-}
-.name{
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--dark-color);
-  cursor: pointer;
-}
-
-.author{
-  font-size: 2.5em;
-  font-weight: 800;
-  color: var(--darker-color);
-  cursor: pointer;
-}
-.author:hover{
-  text-decoration: underline;
-}
 .dates{
   display: flex;
   flex-direction: column;
+  text-align: right;
   gap: .5rem;
+  margin: auto;
+  flex-grow: 1;
 }
 .label{
   font-weight: 700;
@@ -102,6 +92,39 @@ color: var(--darker-color);
   font-weight: 800;
   color: var(--darker-color);
   font-size: 1.3em;
+}
+
+.rating{
+  color: var(--darker-color);
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  flex-grow: 1;
+  max-width: 5rem;
+}
+.rating span{
+  font-size: 2.5rem;
+}
+
+.name{
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--dark-color);
+  cursor: pointer;
+}
+.author-row{
+  flex-grow: 1;
+  text-align: right;
+}
+.author{
+  font-size: 2.5em;
+  font-weight: 800;
+  color: var(--darker-color);
+  cursor: pointer;
+}
+.author:hover{
+  text-decoration: underline;
 }
 
 .main-content{
@@ -201,7 +224,6 @@ margin: auto;
   transform: scale(1.05);
 }
 
-
 .price-row{
   margin-right: auto;
   display: flex;
@@ -252,7 +274,116 @@ margin: auto;
 
 .image-small:hover {
   transform: scale(1.02);
-  border: 5px solid var(--dark-color);
+  border: 7px solid var(--dark-color);
   box-shadow: 10px 10px 0px var(--lighter-color); 
+}
 
+/* --- BREAKPOINT 1: Notebooky a tablety (1100px) --- */
+@media (max-width: 1100px) {
+  .review-card {
+    width: 90vw; 
+  }
+  .icons{
+    width: 0;
+  }
+  .second-row{
+    width: 60%;
+  }
+  .dates{
+    width: 2rem;
+  }
+  .image-small{
+  width: 13rem;
+  height: 17rem;
+  }
+}
+
+/* --- BREAKPOINT 2: Tablety na výšku (900px) --- */
+@media (max-width: 900px) {
+
+  .top-row{
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .heading-column {
+    width: 100%;
+  }
+
+  .dates {
+    width: 100%;
+    text-align: center; /* Vycentrování data */
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .second-row {
+    width: 90%;
+  }
+
+  .text-column {
+    max-width: 85vw;
+  }
+
+  .tags {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .image-small {
+    width: 12rem;
+  }
+  .images{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* --- BREAKPOINT 3: Mobily (600px) --- */
+@media (max-width: 600px) {
+  main {
+    padding: 1rem;
+  }
+
+  .review-card {
+    width: 95vw;
+    border-width: 4px;
+    padding-bottom: 2rem;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  .author {
+    font-size: 1.8em;
+  }
+
+  .dates {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: .8rem;
+  }
+
+  .rating span {
+    font-size: 2rem;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .text::before, 
+  .text::after {
+    font-size: 3rem;
+  }
+
+  .tags {
+  }
+  .images{
+    grid-template-columns: 1fr 1fr;
+  }
+  .image-small{
+    width: 14rem;
+  }
 }
