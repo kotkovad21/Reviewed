@@ -13,7 +13,10 @@ Webová aplikace Reviewed je responzivní webová stránka, která slouží k za
 
 ## Screenshots
 
-![App Screenshot](https://dummyimage.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/homepage.png)
+![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/profile.png)
+![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/place.png)
+![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/visits.png)
 
 ## Authors
 
