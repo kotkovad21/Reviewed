@@ -1,6 +1,14 @@
 
 # Reviewed
-Webová aplikace Reviewed je responzivní webová stránka, která slouží k zaznamenávání návštěv v restauracích, kavárnách a barech, sdílení recenzí s přáteli a objevování nových míst v okolí. 
+Webová aplikace Reviewed je responzivní webová stránka, která slouží k zaznamenávání návštěv v restauracích, kavárnách a barech, sdílení recenzí s přáteli a objevování nových míst v okolí. Design webu je inspirován neo-brutalismem.
+
+## 🛠️ Použité technologie
+* **HTML5** – sémantická struktura
+* **CSS3** – Flexbox, Grid, Custom Variables
+* **JavaScript** – interaktivní navigace
+* **Google Fonts** – Plus Jakarta Sans
+* **Material Symbols** – Google ikony
+
 ## Color Reference
 
 | Color             | Hex                                                                |
@@ -11,12 +19,14 @@ Webová aplikace Reviewed je responzivní webová stránka, která slouží k za
 | Example Color | ![#af1740](https://dummyimage.com/10/af1740/white?text=+) #af1740 |
 | Example Color | ![#740938](https://dummyimage.com/10/740938/white?text=+) #740938 |
 
-## Screenshots
 
+## Screenshots
 ![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/homepage.png)
 ![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/profile.png)
 ![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/place.png)
 ![App Screenshot](https://github.com/kotkovad21/Reviewed/blob/main/media/fotky/screenshots/visits.png)
+
+
 
 ## Authors
 
