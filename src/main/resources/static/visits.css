@@ -1,0 +1,298 @@
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  min-height: 100vh;
+}
+
+main {
+  background-color: var(--lighter-color);
+}
+
+.filters {
+  background-color: var(--lighter-color);
+  display: flex;
+  flex-direction: row;
+  max-width: 80vw;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 1rem;
+  gap: 1.5rem;
+  margin: auto;
+}
+
+.filters-button {
+  border: none;
+  border-radius: 10px;
+  background-color: var(--white-color);
+  box-shadow: 6px 6px 0px var(--middle-color);
+  color: var(--darker-color);
+  cursor: pointer;
+  padding: .5rem;
+}
+
+.filters-button span {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.filter,
+select {
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  background-color: var(--white-color);
+  border: 4px solid var(--darker-color);
+  box-shadow: 6px 6px 0px var(--middle-color);
+  height: 3rem;
+  font-family: inherit;
+}
+
+.filter-remove {
+  border: none;
+  background-color: var(--white-color);
+  color: var(--darker-color);
+  padding-bottom: 5px;
+  cursor: pointer; /* Přidán jen kurzor myši, abys viděla, že to jde kliknout */
+}
+
+.filter-name,
+select {
+  color: var(--dark-color);
+}
+
+/* --------------------------------------------------- */
+/* NOVÝ KÓD: Jen pro to vyskakovací menu se štítky     */
+/* --------------------------------------------------- */
+
+.filter-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tag-dropdown {
+  display: none;
+  position: absolute;
+  top: 110%; /* Posune menu kousek pod tlačítko */
+  left: 0;
+  background: var(--white-color);
+  border: 4px solid var(--darker-color);
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  min-width: 180px;
+  box-shadow: 6px 6px 0px var(--middle-color);
+}
+
+.tag-option {
+  cursor: pointer;
+  padding: 8px;
+  font-weight: bold;
+  color: var(--dark-color);
+}
+
+.tag-option:hover {
+  background-color: var(--lighter-color);
+}
+.visits {
+  padding: 0 0 5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  max-width: 70vw;
+}
+
+.card {
+  background-color: var(--white-color);
+  max-width: 20vw;
+  width: 16vw;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 12px 12px 0px var(--light-color);
+  color: black;
+  transition: transform 0.2s;
+  border: 5px solid var(--middle-color);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+.card a{
+    text-decoration: none;
+}
+.card-image-placeholder img {
+  background-color: var(--middle-color);
+  width: 100%;
+  height: 17rem;
+  display: block;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  border: 5px solid var(--darker-color);
+}
+.fallback-box {
+  width: 100%;
+  height: 17rem; /* Stejná výška jako img výše! */
+  background-color: #eee; /* Světle šedá nebo var(--white-color) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  border: 5px solid var(--darker-color); /* Stejný rámeček jako u fotky! */
+}
+
+.fallback-box span {
+  font-size: 48px;
+  color: #ccc;
+}
+.card-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: black;
+}
+.card .author-row{
+    display: flex;
+    gap: .5rem;
+
+}
+.author-row p {
+    text-decoration: none;
+    color: var(--darker-color);
+}
+.author-row h4{
+    font-weight: 700;
+    color: var(--dark-color);
+}
+/* 1. Základní nastavení pro všechny hvězdy (plné i prázdné) */
+.rating .material-symbols-outlined {
+    /* Všechny jsou v základu prázdné */
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    color: var(--darker-color); /* Tvoje původní tmavá barva */
+    font-size: 24px;
+    display: inline-block;
+}
+
+/* 2. Nastavení pouze pro ty vyplněné */
+.rating .material-symbols-outlined.filled {
+    /* Jen těmto zapneme výplň */
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24 !important;
+    /* Barva zůstává stejná jako u prázdných, nebo si ji uprav podle libosti */
+    color: var(--darker-color);
+}
+/* Kontejner (gap a margin zůstávají) */
+.card .rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.load-more-button{
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    background-color: var(--white-color);
+    border: 4px solid var(--darker-color);
+    box-shadow: 6px 6px 0px var(--middle-color);
+    color: var(--darker-color);
+    cursor: pointer;
+    height: 3rem;
+    font-family: inherit;
+    margin: 3rem auto;
+    transition: transform 0.2s;
+}
+
+.load-more-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 3px 3px 0px var(--middle-color);
+}
+
+/* 1. Breakpoint: 1100px (Menší laptopy a tablety na šířku) */
+@media (max-width: 1100px) {
+  .cards-grid {
+    max-width: 90vw;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1.5rem;
+  }
+
+  .filters {
+    max-width: 95vw;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .card {
+    width: 85%;
+    max-width: 85%;
+  }
+
+  .card-image-placeholder img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+  }
+}
+
+/* 2. Breakpoint: 900px (Tablety na výšku) */
+@media (max-width: 900px) {
+
+  .filters {
+    padding: 1rem 0.5rem;
+  }
+
+  .filter,
+  select {
+    width: 45%;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  .filters-button {
+    display: none;
+  }
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+  .card-image-placeholder img {
+    height: 15rem;
+  }
+}
+
+/* 3. Breakpoint: 600px (Mobily) */
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 90vw;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .filter,
+  select {
+    width: 100%;
+    height: 3.5rem;
+  }
+
+  .card-image-placeholder img {
+    height: 15rem;
+  }
+}

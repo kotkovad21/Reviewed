@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<header th:fragment="header">
+    <div class="nav-first">
+        <div>
+            <a href="/" class="logo">Reviewed</a>
+        </div>
+
+        <nav class="nav-explore">
+            <a th:href="@{/places(business=2)}">Restaurace</a>
+            <a th:href="@{/places(business=1)}">Kavárny</a>
+            <a th:href="@{/places(business=4)}">Bary</a>
+        </nav>
+
+        <nav class="nav-icons">
+            <th:block sec:authorize="isAnonymous()">
+                <a href="/login" class="nav-link">Přihlásit se</a>
+                <a href="/register" class="nav-link">Registrace</a>
+            </th:block>
+
+            <!-- Tento blok vidí jen přihlášení uživatelé -->
+            <th:block sec:authorize="isAuthenticated()">
+                <a href="/profile">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+            </th:block>
+
+            <button id="menu-toggle" type="button" class="icon-button">
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+            </button>
+        </nav>
+    </div>
+
+    <div class="nav-second">
+        <nav class="nav-drop">
+
+            <a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">
+                 <span class="material-symbols-outlined">
+                        add
+                    </span>
+                Přidat recenzi
+            </a>
+
+            <a sec:authorize="isAuthenticated()" href="/insert">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                Přidat recenzi
+            </a>
+
+            <a href="/reviews">
+                    <span class="material-symbols-outlined">
+                        reviews
+                    </span>
+                Recenze
+            </a>
+
+            <a href="/places">
+                    <span class="material-symbols-outlined">
+                        restaurant
+                    </span>
+                Podniky
+            </a>
+
+            <a sec:authorize="isAuthenticated()" href="/visits">
+                    <span class="material-symbols-outlined">
+                        apps
+                    </span>
+                Moje recenze
+            </a>
+
+            <a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">
+                    <span class="material-symbols-outlined">
+                        apps
+                    </span>
+                Moje recenze
+            </a>
+
+            <a  sec:authorize="isAuthenticated()" href="/saved">
+                    <span class="material-symbols-outlined">
+                        bookmark
+                    </span>
+                Uložené
+            </a>
+            <a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">
+                    <span class="material-symbols-outlined">
+                        bookmark
+                    </span>
+                Uložené
+            </a>
+
+            <a sec:authorize="isAuthenticated()" href="/friends">
+                    <span class="material-symbols-outlined">
+                        group
+                    </span>
+                Přátelé
+            </a>
+            <a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">
+                    <span class="material-symbols-outlined">
+                        group
+                    </span>
+                Přátelé
+            </a>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

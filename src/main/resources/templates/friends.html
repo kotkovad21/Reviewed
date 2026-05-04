@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/friends.css">
+    <link rel="stylesheet" href="/footer.css">
+    <script src="/nav.js" defer></script>
+    <script src="/friendsSearch.js" defer></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <title>Reviewed</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+
+    <main class="friends-container">
+            <section class="requests-section" th:if="${!#lists.isEmpty(zadosti)}">
+                <h2>Žádosti o přátelství</h2>
+                <div class="requests-grid">
+                    <div class="request-card" th:each="z : ${zadosti}">
+                        <a th:href="@{/profil/{id}(id=${z.zadatel.idUzivatele})}">
+                            <div class="fallback-icon"><span class="material-symbols-outlined">person</span></div>
+                            <span class="user-name" th:text="${z.zadatel.prezdivka}"></span>
+                        </a>
+
+                        <div class="actions">
+                            <form th:action="@{/friends/accept/{id}(id=${z.zadatel.idUzivatele})}" method="post">
+                                <button type="submit" class="btn-accept">Přijmout</button>
+                            </form>
+                            <form th:action="@{/friends/reject/{id}(id=${z.zadatel.idUzivatele})}" method="post">
+                                <button type="submit" class="btn-reject">Odmítnout</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            <section class="friends-list">
+                <h2>Moji přátelé</h2>
+                <div class="cards-grid">
+                    <article class="card" th:each="p : ${pratele}">
+                        <a th:href="@{/profil/{id}(id=${p.idUzivatele})}">
+                            <div class="fallback-icon"><span class="material-symbols-outlined">person</span></div>
+                            <h3 th:text="${p.prezdivka}">Přezdívka</h3>
+                        </a>
+                        <form th:action="@{/friends/reject/{id}(id=${p.idUzivatele})}" method="post">
+                            <button type="submit" class="btn-remove">Odebrat</button>
+                        </form>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <div class="column2">
+
+        <h2>Najít přátele</h2>
+
+        <section class="search-section">
+            <form th:action="@{/friends}" method="get" class="search-form">
+                <!-- Tento div obaluje input a našeptávač, aby držely u sebe -->
+                <div>
+                    <input type="text" id="liveSearchInput" name="search" th:value="${hledanyText}"
+                           placeholder="Zadejte přezdívku nebo část přezdívky..." required autocomplete="off"
+                          >
+
+                    <!-- Bublina našeptávače (na začátku je skrytá) -->
+                    <div id="liveSearchResults" >
+                    </div>
+                </div>
+                <button type="submit" >Hledat</button>
+            </form>
+
+            <!-- Výsledky hledání -->
+            <div th:if="${vysledkyHledani != null}" class="search-results" >
+                <h3>Výsledky hledání</h3>
+                <p th:if="${#lists.isEmpty(vysledkyHledani)}">Nenalezen žádný uživatel s tímto jménem.</p>
+
+                <div class="cards-grid" th:unless="${#lists.isEmpty(vysledkyHledani)}">
+                    <article class="card" th:each="u : ${vysledkyHledani}">
+                        <a th:href="@{/profil/{id}(id=${u.idUzivatele})}">
+                            <div class="fallback-icon"><span class="material-symbols-outlined">person</span></div>
+                            <h3 th:text="${u.prezdivka}">Přezdívka</h3>
+                        </a>
+
+                        <!-- Dynamické zobrazení stavu / tlačítka -->
+                        <div>
+                            <!-- Tlačítko Přidat -->
+                            <form th:if="${stavyVazeb[u.idUzivatele] == null}" th:action="@{/friends/add/{id}(id=${u.idUzivatele})}" method="post">
+                                <button type="submit" class="btn-add-friend" >Přidat do přátel</button>
+                            </form>
+
+                            <!-- Stavy, pokud už se znají -->
+                            <p th:if="${stavyVazeb[u.idUzivatele] == 'PRIJATO'}">Jste přátelé</p>
+                            <p th:if="${stavyVazeb[u.idUzivatele] == 'ZADOST'}" >Žádost odeslána/čeká</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        </div>
+
+    </main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

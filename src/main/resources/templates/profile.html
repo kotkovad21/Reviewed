@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/profile.css">
+    <link rel="stylesheet" href="/footer.css">
+    <script src="/nav.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <title>Reviewed</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+    <main>
+        <section class="section-basic">
+            <div class="basic-info">
+                <div class="profile-photo">
+                    <img src="/default_pfp.png" alt="Default profile picture">
+                </div>
+                
+                <div class="bio">
+                    <h4 th:text="${uzivatel?.popisProfilu}"></h4>
+                </div>
+
+                <div class="name">
+                    <h2 class="first-name" th:text="${uzivatel?.prezdivka}"></h2>
+                </div>
+            </div> 
+        </section>
+    <div class="content">
+        <section class="private-info">
+            <div class="info-grid">
+                <p class="label">Email:</p>
+                <p class="data" th:text="${uzivatel?.email}"></p>
+                <p class="label">Křestní jméno:</p>
+                <p class="data" th:text="${uzivatel?.krestniJmeno}" ></p>
+                <p class="label">Příjmení:</p>
+                <p class="data" th:text="${uzivatel?.prijmeni}"></p>
+                <p class="label">Město:</p>
+                <p class="data" th:text="${uzivatel?.mesto?.nazev}"></p>
+                <p class="label">Datum Registrace:</p>
+                <p class="data" th:text="${#temporals.format(uzivatel?.datumRegistrace,  'dd. MM. yyyy')}"></p>
+             </div>
+        </section>
+        
+        <section class="profile-settings">
+            <h3>Nastavení profilu</h3>
+            <div class="profile-settings-grid">
+                <button class="setting" type="button">Přezdívka</button>
+                <button class="setting" type="button">Profilová fotka</button>
+                <button class="setting" type="button">Popis Profilu</button>
+                <button class="setting" type="button">Jméno a Příjmení</button>
+            </div>
+        </section>
+    </div>
+        <section class="account-settings">
+            <h3>Nastavení účtu</h3>
+            <div class="account-settings-grid">
+                <button class="setting" type="button">Heslo</button>
+                <button class="setting" type="button">Email</button>
+                <button class="setting" type="button">Jazyk</button>
+                <button class="setting" type="button">Lokace</button>
+                <button class="setting" type="button">Měna</button>
+                <form th:action="@{/logout}" method="post" class="logout-form">
+                    <button type="submit" class="setting">
+                        Odhlásit se
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

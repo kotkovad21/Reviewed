@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="places-fragment">
+    <article th:each="p : ${seznamPodniku}">
+        <a class="card" th:href="@{/place/{id}(id=${p.idPodniku})}">
+            <div class="card-image-placeholder">
+                <th:block th:if="${p.idTitulniFotky != null}">
+                    <img th:src="@{/image/fotka/{id}(id=${p.idTitulniFotky})}" loading="lazy" alt="Náhled">
+                </th:block>
+                <div class="fallback-icon" th:if="${p.idTitulniFotky == null}">
+                    <span class="material-symbols-outlined">image</span>
+                </div>
+            </div>
+            <h3 th:text="${p.nazev}">Název</h3>
+            <p th:text="${p.popis}">Popis podniku</p>
+        </a>
+    </article>
+</th:block>
+</html>

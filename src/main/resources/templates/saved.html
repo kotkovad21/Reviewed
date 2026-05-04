@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/saved.css">
+    <link rel="stylesheet" href="/footer.css">
+    <script src="/nav.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>Reviewed</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main class="saved-container">
+    <section class="saved-section">
+        <h2 class="section-title">Moje uložené podniky</h2>
+
+        <!-- Stav, když je prázdno -->
+        <div th:if="${#lists.isEmpty(ulozenePodniky)}" class="empty-state">
+            <span class="material-symbols-outlined">bookmark_border</span>
+            <p>Zatím nemáte uložené žádné podniky.</p>
+            <a href="/places" class="btn-explore">Prozkoumat podniky</a>
+        </div>
+
+        <!-- Mřížka s kartami -->
+        <div class="cards-grid" th:unless="${#lists.isEmpty(ulozenePodniky)}">
+            <article th:each="u : ${ulozenePodniky}" >
+                <a class="card" th:href="@{/place/{id}(id=${u.podnik.idPodniku})}">
+
+                    <div class="card-image-placeholder">
+
+                        <th:block th:if="${u.podnik.idTitulniFotky != null}">
+                            <img th:src="@{/image/fotka/{id}(id=${u.podnik.idTitulniFotky})}" loading="lazy" alt="Náhled">
+                        </th:block>
+
+                        <div class="fallback-icon" th:if="${u.podnik.idTitulniFotky == null}">
+                            <span class="material-symbols-outlined">image</span>
+                        </div>
+                    </div>
+                        <h3 th:text="${u.podnik.nazev}">Název</h3>
+                        <p th:text="${u.podnik.popis}">Popis podniku</p>
+                </a>
+            </article>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
