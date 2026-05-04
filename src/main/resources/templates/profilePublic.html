@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/profilePublic.css">
+    <link rel="stylesheet" href="/footer.css">
+    <script src="/nav.js" defer></script>
+    <!-- Tyto dva řádky si přidej do <head> k ostatním stylům a skriptům -->
+    <link rel="stylesheet" href="/authModal.css">
+    <script src="/authModal.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <title>Reviewed</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main>
+    <section class="section-basic">
+        <div class="basic-info">
+            <div class="profile-photo">
+                <img src="/default_pfp.png" alt="Default profile picture">
+            </div>
+
+            <div class="bio">
+                <h4 th:text="${autor?.popisProfilu}"></h4>
+            </div>
+
+            <div class="name">
+                <h2 class="first-name" th:text="${autor?.prezdivka}"></h2>
+            </div>
+        </div>
+    </section>
+    <div class="friend-actions" th:if="${mojeId != null and mojeId != autor.idUzivatele}">
+
+        <!-- Pokud ještě nejsme přátelé ani nebyla odeslána žádost -->
+        <form th:if="${!uzJsmePratele and !zadostOdeslana}" th:action="@{/friends/add/{id}(id=${autor.idUzivatele})}" method="post">
+            <button type="submit" class="friends-status">Přidat do přátel</button>
+        </form>
+
+        <!-- Pokud už jsme přátelé -->
+        <p th:if="${uzJsmePratele}" class="friends-status">Jste přátelé</p>
+
+        <!-- Pokud žádost čeká -->
+        <p th:if="${zadostOdeslana}" class="friends-status">Žádost odeslána</p>
+
+    </div>
+
+    <section class="visits">
+        <h2 class="label">Recenze</h2>
+        <div th:if="${#lists.isEmpty(recenze)}">
+            <p>Tento uživatel zatím nenapsal žádné recenze.</p>
+        </div>
+        <div class="cards-grid" th:unless="${#lists.isEmpty(recenze)}">
+            <article class="card" th:each="r : ${recenze}">
+                <a th:href="@{/review/{id}(id=${r.idObsahu})}">
+
+                    <!-- Obrázek: Používáme idTitulniFotky jako ve visits -->
+                    <div class="card-image-placeholder">
+                        <th:block th:if="${r.idTitulniFotky != null}">
+                            <img th:src="@{/image/fotka/{id}(id=${r.idTitulniFotky})}"
+                                 alt="Náhled recenze"
+                                 loading="lazy">
+                        </th:block>
+
+                        <th:block th:if="${r.idTitulniFotky == null}">
+                            <div class="fallback-box">
+                                <span class="material-symbols-outlined" >image</span>
+                            </div>
+                        </th:block>
+                    </div>
+
+                    <div class="card-content">
+                        <h3 th:text="${r.podnik?.nazev}">Název podniku</h3>
+
+                        <!-- Třída změněna z 'rating-review' na 'rating' pro shodu se stylem visits -->
+                        <div class="rating">
+                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                        <span class="material-symbols-outlined"
+                              th:classappend="${i <= r.hodnoceni} ? 'filled' : ''">
+                            star
+                        </span>
+                            </th:block>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

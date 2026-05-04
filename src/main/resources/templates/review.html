@@ -1,154 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <link rel="stylesheet" href="/header.css">
     <link rel="stylesheet" href="/review.css">
     <link rel="stylesheet" href="/footer.css">
     <script src="/nav.js" defer></script>
+    <script src="/reviewDropdown.js" defer></script>
+    <link rel="stylesheet" href="/authModal.css">
+    <script src="/authModal.js" defer></script>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    
+
     <title>Reviewed</title>
 </head>
 <body>
-    <header>
-        <div class="nav-first">
-            <div>
-                <a href="/" class="logo">Reviewed</a>
-            </div>
-
-            <h1 class="page-name">Review</h1>
-
-            <nav class="nav-explore">
-                <a href="/explore">Restaurants</a>
-                <a href="/explore">Cafés</a>
-                <a href="/explore">Bars</a>
-            </nav>
-
-            <nav class="nav-icons">
-                <a href="/profile">
-                                <span class="material-symbols-outlined">
-                                    person
-                                </span>
-                </a>
-                <button id="menu-toggle" type="button" class="icon-button">
-                                <span class="material-symbols-outlined">
-                                    menu
-                                </span>
-                </button>
-            </nav>
-        </div>
-
-        <div class="nav-second">
-            <nav class="nav-drop">
-                <a href="/homepage">
-                                <span class="material-symbols-outlined">
-                                    home
-                                </span>
-                    Home
-                </a>
-
-                <a href="/insert">
-                                <span class="material-symbols-outlined">
-                                    add
-                                </span>
-                    Add review
-                </a>
-
-                <a href="/explore">
-                                <span class="material-symbols-outlined">
-                                    explore
-                                </span>
-                    Explore
-                </a>
-
-                <a href="/visits">
-                                <span class="material-symbols-outlined">
-                                    apps
-                                </span>
-                    My visits
-                </a>
-
-                <a href="/saved">
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
-                    Saved
-                </a>
-
-                <a href="/friends">
-                                <span class="material-symbols-outlined">
-                                    group
-                                </span>
-                    Friends
-                </a>
-            </nav>
-        </div>
-    </header>
+<header th:replace="~{fragments/header :: header}"></header>
    <main>
-    <article class="review-card">     
-        
+    <article class="review-card">
+
         <div class="top-row">
              <div class="icons">
-                <button class="settings">
-                    <span class="material-symbols-outlined">
-                        more_vert
-                    </span>
-                </button>
+                 <div th:if="${prihlasenyId != null and prihlasenyId == recenze.obsah.uzivatel.idUzivatele}" style="position: relative; display: inline-block;" class="edit-menu-container">
+                     <button type="button" class="settings" onclick="toggleReviewMenu(this)">
+                         <span class="material-symbols-outlined">more_vert</span>
+                     </button>
+
+                     <div class="review-dropdown">
+                         <button class="delete-button" th:onclick="'deleteReview(' + ${recenze.idObsahu} + ')'">
+                             <span class="material-symbols-outlined">delete</span>
+                             Smazat
+                         </button>
+                         <div class="visibility-changer">
+                             <select class="visibility-select" th:onchange="'zmenitViditelnost(' + ${recenze.idObsahu} + ', this.value)'">
+                                 <option value="2" th:selected="${recenze.obsah.viditelnost.idViditelnosti == 2}">Veřejné</option>
+                                 <option value="4" th:selected="${recenze.obsah.viditelnost.idViditelnosti == 4}">Pouze já</option>
+                                 <option value="3" th:selected="${recenze.obsah.viditelnost.idViditelnosti == 3}">Pouze přátele</option>
+                                 <option value="1" th:selected="${recenze.obsah.viditelnost.idViditelnosti == 1}">Anonymní</option>
+                             </select>
+                         </div>
+                     </div>
+
+                 </div>
 
                 <div class="visibility">
-                    <span class="material-symbols-outlined">
-                        public
+
+                    <span class="material-symbols-outlined"
+                          th:text="${recenze.obsah.viditelnost.ikona}">
                     </span>
+
+                    <p th:text="${recenze.obsah.viditelnost.nazev}"></p>
+
                 </div>
             </div>
             <div class="heading-column">
-                <h1 class="name">Bar Xyz</h1>
-            
-                <div class="meta-row">
-                    <span class="label">Type:</span>
-                    <span class="value">Bar</span>
-                </div>
-            </div>
-            
-            <div class="dates">
-                <div class="meta-row">
-                    <span class="label">Posted:</span>
-                    <span class="value">28.1.2026</span>
-                </div>
+                <h1 class="name">
+                    <a
+                        th:href="@{/place/{id}(id=${recenze.podnik?.idPodniku})}"
+                        th:text="${recenze.podnik?.nazev}">
+                    </a>
+                </h1>
 
                 <div class="meta-row">
-                    <span class="label">Visited:</span>
-                    <span class="value">24.1.2026</span>
+                    <span class="label">Typ:</span>
+                    <span class="value" th:text="${recenze.podnik?.typPodniku?.nazev}"></span>
+                </div>
+            </div>
+
+            <div class="dates">
+                <div class="meta-row">
+                    <span class="label">Nahráno:</span>
+                    <span class="value" th:text="${#temporals.format(recenze.obsah?.datumVytvoreni, 'dd. MM. yyyy')}">28.1.2026</span>
+                </div>
+                <div class="meta-row">
+                    <span class="label">Navštíveno:</span>
+                    <span class="value" th:text="${#temporals.format(recenze.datumNavstevy, 'dd. MM. yyyy')}">24.1.2026</span>
                 </div>
             </div>
 
         </div>
-        
+
         <div class="second-row">
             <div class="rating">
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">star</span>
+                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                    <span class="material-symbols-outlined"
+                          th:classappend="${i <= recenze.hodnoceni} ? 'filled' : ''">
+                        star
+                    </span>
+                </th:block>
             </div>
 
             <div class="author-row">
-                <span class="label">By:</span>
-                <span class="author">Jane Doe</span>
+                <span class="label">Autor:</span>
+
+                <!-- 1. KDYŽ NENÍ ANONYMNÍ -> Vykreslí se klikací odkaz <a> -->
+                <a th:if="${recenze.getJmenoProDivaka(prihlasenyId) != 'Anonym'}"
+                   th:href="@{/profil/{id}(id=${recenze.getAutorId()})}"
+                   class="author">
+                    <span  th:text="${recenze.getJmenoProDivaka(prihlasenyId)}"></span>
+                </a>
+
+                <!-- 2. KDYŽ JE ANONYMNÍ -> Vykreslí se jen text <span> se stejným designem, ale bez odkazu -->
+                <span th:if="${recenze.getJmenoProDivaka(prihlasenyId) == 'Anonym'}"
+                      class="author">
+                    <span class="author" th:text="${recenze.getJmenoProDivaka(prihlasenyId)}"></span>
+                </span>
             </div>
 
         </div>
         <div class="main-content">
             <div class="text-column">
-                <q class="text">
+                <q class="text" th:text="${recenze.obsah?.text}">
                     <span>
                     The energy here is unmatched! We had a fantastic time sampling their cocktail menu. Even though we had to squeeze through the crowd to get to the bar, the service was top-notch and very attentive. It’s a bit expensive, but for a premium night out in the city, this is the place to be.
                     </span>
@@ -157,71 +128,40 @@
                 <div class="tags-section">
                     <span class="label">#:</span>
                     <ul class="tags">
-                        <li class="tag">Good Service</li>
-                        <li class="tag">Fun</li>
-                        <li class="tag">Nightlife</li>
-                        <li class="tag">Expensive</li>
-                        <li class="tag">Crowded</li>
+                        <li class="tag"
+                            th:each="s : ${recenze.obsah?.stitky}"
+                            th:if="${s != null}"
+                            th:text="${s.nazev}">
+                        </li>
                     </ul>
                 </div>
                 <div class="price-row">
-                    <span class="label">Total spent:</span>
+                    <span class="label">Útrata:</span>
                     <div class="spend">
-                        <span>50</span>
-                        <span>$</span>
+                        <span th:text="${recenze.utrata}"></span>
+                        <span>Kč</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="photo-column">
+
+            <div class="photo-column" th:if="${recenze.fotky != null and !recenze.fotky.isEmpty()}">
                 <div class="images">
-                    <img class="image-small" src="../media/fotky/ambitious-studio-rick-barrett-QjUY7auDzUQ-unsplash.jpg" alt="Bar Xyz">
-                    <img class="image-small"src="../media/fotky/q-u-i-n-g-u-y-e-n-Zrp9b3PMIy8-unsplash.jpg" alt="Rich Bar">
-                    <img class="image-small" src="../media/fotky/drew-beamer-bTN-zKFy9uA-unsplash.jpg" alt="Bar Old Time">
-                    <img class="image-small"src="../media/fotky/fred-moon-0yqa0rMCsYk-unsplash.jpg" alt="Pub Normal">
+
+                    <img class="image-small"
+                         th:each="f : ${recenze.fotky}"
+                         th:src="@{/image/fotka/{id}(id=${f.idFotky})}"
+                         alt="Fotka z recenze"
+                         loading="lazy"
+                    >
+
                 </div>
-                
             </div>
         </div>
-        
+
 
     </article>
 </main>
-    <footer>
-        <div class="footer-content">
-        
-            <div class="logo-container">
-                <a href="homepage.html" class="logo">Reviewed</a>
-            </div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
-            <div class="footer-col">
-                <h4>Navigate</h4>
-                <ul>
-                    <li><a href="explore.html">Explore</a></li>
-                    <li><a href="visits.html">My visits</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="insert.html">Add Review</a></li>
-                    <li><a href="friends.html">Friends</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Cookies</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <img src="../media/fotky/Gemini_Generated_Image_jsu2yejsu2yejsu2 (1).png" alt="food illustration">
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>Daniela Kotková 1.WT 2025</p>
-        </div>
-    </footer>
 </body>
 </html>

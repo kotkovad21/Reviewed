@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/footer.css">
+    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/Authmodal.css">
+    <script src="/AuthModal.js" defer></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <title>Reviewed</title>
+</head>
+<body>
+<header>
+    <div class="nav-first">
+        <div>
+            <a href="/" class="logo">Reviewed</a>
+        </div>
+
+    </div>
+
+</header>
+    <main>
+        <form th:action="@{/register}" method="post" class="login-form">
+
+            <div class="row">
+                <p th:if="${chybaEmail}" th:text="${chybaEmail}"></p>
+                <label for="email">E-mail:</label><br>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="row">
+                <p th:if="${chybaPrezdivka}" th:text="${chybaPrezdivka}"></p>
+                <label for="prezdivka">Uživatelské jméno:</label><br>
+                <input type="text" id="prezdivka" name="prezdivka" placeholder="Uživatelské jméno" required>
+            </div>
+
+            <div class="row">
+                <label for="heslo">Heslo:</label><br>
+                <input type="password" id="heslo" name="heslo" placeholder="Heslo" required>
+
+            </div>
+
+            <button type="submit" class="login-btn">Zaregistrovat se</button>
+        </form>
+
+        <div class="redirect">
+            <p class="question">
+                Už máte účet?
+            </p>
+            <a class="link" href="/login">
+                Přihlásit se
+            </a>
+        </div>
+    </main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

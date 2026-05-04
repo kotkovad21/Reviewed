@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/visits.css">
     <link rel="stylesheet" href="/footer.css">
     <script src="/nav.js" defer></script>
+    <script src="/visits.js" defer></script>
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,527 +18,67 @@
     <title>Reviewed</title>
 </head>
 <body>
-    <header>
-        <div class="nav-first">
-            <div>
-                <a href="/homepage" class="logo">Reviewed</a>
-            </div>
-
-            <h1 class="page-name">Visits</h1>
-
-            <nav class="nav-explore">
-                <a href="/explore">Restaurants</a>
-                <a href="/explore">Cafés</a>
-                <a href="/explore">Bars</a>
-            </nav>
-
-            <nav class="nav-icons">
-                <a href="/profile">
-                    <span class="material-symbols-outlined">
-                        person
-                    </span>
-                </a>
-                <button id="menu-toggle" type="button" class="icon-button">
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-                </button>
-            </nav>
-        </div>
-
-        <div class="nav-second">
-            <nav class="nav-drop">
-                <a href="/">
-                    <span class="material-symbols-outlined">
-                        home
-                    </span>
-                    Home
-                </a>
-
-                <a href="/insert">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    Add review
-                </a>
-
-                <a href="/explore">
-                    <span class="material-symbols-outlined">
-                        explore
-                    </span>
-                    Explore
-                </a>
-
-                <a href="/visits">
-                    <span class="material-symbols-outlined">
-                        apps
-                    </span>
-                    My visits
-                </a>
-
-                <a href="/saved">
-                    <span class="material-symbols-outlined">
-                        bookmark
-                    </span>
-                    Saved
-                </a>
-
-                <a href="/friends">
-                    <span class="material-symbols-outlined">
-                        group
-                    </span>
-                    Friends
-                </a>
-            </nav>
-        </div>
-    </header>
+<header th:replace="~{fragments/header :: header}"></header>
 
     <main>
-        <section class="filters">
-            <button class="filters-button" type="button">
-                <span class="material-symbols-outlined">
-                    filter_list
-                </span>
-            </button>
-            
-            <select id="order" name="order" >
-                <option value="latest">By date (latest)</option>
-                <option value="oldest">By date (Oldest) </option>
-                <option value="rating">Highest rating</option>
-                <option value="abc">Alphabetically</option>
-            </select>
-            
-            <select id="business" name="business" >
-                <option value="all">All</option>
-                <option value="restaurant">Restaurants</option>
-                <option value="cofee">Cofee Shops</option>
-                <option value="bar">Bars</option>
-                <option value="other">Other</option>
-            </select>
-            
-            <div class="filter">
-                <p class="filter-name">
-                    Dog friendly
-                </p>
-                <button class="filter-remove" type="button">
-                    <span class="material-symbols-outlined">
-                        close
-                    </span>
-                </button>
-            </div>
+        <h2 class="section-title">Moje recenze</h2>
 
-            <div class="filter">
-                <p class="filter-name">
-                    Fast Service
-                </p>
-                <button class="filter-remove" type="button">
-                    <span class="material-symbols-outlined">
-                        close
-                    </span>
-                </button>
-            </div>
-        </section>
+        <form id="filterForm" action="/visits" method="GET">
+            <section class="filters">
+
+                <div class="filter-menu-wrapper">
+                    <button class="filters-button" type="button" onclick="toggleTagMenu()">
+                        <span class="material-symbols-outlined">filter_list</span>
+                    </button>
+
+                    <div id="tagMenu" class="tag-dropdown">
+                        <div th:each="stitek : ${vsechnyStitky}"
+                             class="tag-option"
+                             th:data-tagname="${stitek.nazev}"
+                             onclick="addTag(this.getAttribute('data-tagname'))">
+                            <span th:text="'+ ' + ${stitek.nazev}">+ Štítek</span>
+                        </div>
+                    </div>
+                </div>
+                <select name="order" onchange="this.form.submit()">
+                <option value="latest" th:selected="${param.order == null or param.order[0] == 'latest'}">Nejnovější</option>
+                <option value="rating" th:selected="${param.order != null and param.order[0] == 'rating'}">nejlepší hodnocení</option>
+                <option value="abc" th:selected="${param.order != null and param.order[0] == 'abc'}">Abecedně</option>
+            </select>
+
+                <select name="business" onchange="this.form.submit()">
+                    <option value="all">všechny typy</option>
+                    <option th:each="typ : ${typyPodniku}"
+                            th:value="${typ.idTypuPodniku}"
+                            th:text="${typ.nazev}"
+                            th:selected="${param.business != null and param.business[0] == typ.idTypuPodniku.toString()}">Typ</option>
+                </select>
+
+                <div class="filter" th:each="activeTag : ${aktivniStitky}">
+                    <p class="filter-name" th:text="${activeTag}"></p>
+                    <input type="hidden" name="tags" th:value="${activeTag}">
+                    <button class="filter-remove" type="button" onclick="removeTag(this)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </section>
+        </form>
 
         <section class="visits">
-            
-            <div class="cards-grid">
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/ambitious-studio-rick-barrett-QjUY7auDzUQ-unsplash.jpg" alt="Bar Xyz">
-                    </div>
-                        
-                    <div class="card-content">
-                        <h3>Bar Xyz</h3>
-                            
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
 
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/breakslow-E6RTpqvOasU-unsplash.jpg" alt="Cafe On Paper">
-                    </div>
-                    
-                    <div class="card-content">
-                        <h3>Cafe On Paper</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-                        
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/stefan-johnson-xIFbDeGcy44-unsplash.jpg" alt="Restaurant Abcde">
-                    </div>
-                    
-                    <div class="card-content">
-                        <h3>Restaurant Abcde</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-                        
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/drew-beamer-bTN-zKFy9uA-unsplash.jpg" alt="Bar Old Time">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Bar Old Time</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/keghan-crossland-ZZxmc66SjfM-unsplash.jpg" alt="Cafee Modern">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Cafee Modern</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/simon-karemann-p85-MG66GRY-unsplash.jpg" alt="Restaurant Popularity">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Restaurant Popularity</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/nathan-dumlao-zUNs99PGDg0-unsplash.jpg" alt="Cafee The Best">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Cafee The Best</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/fred-moon-0yqa0rMCsYk-unsplash.jpg" alt="Pub Normal">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Pub Normal</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/lily-banse--YHSwy6uqvk-unsplash.jpg" alt="The High End Restaurant">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>The High End Restaurant</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/mihai-moisa-Djtc1T38-GY-unsplash.jpg" alt="Cofee Shop Basic">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Cofee Shop Basic</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/mahdiar-mahmoodi-0XmMGAsIVvc-unsplash.jpg" alt="Cafee Normality">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Cafee Normality</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/q-u-i-n-g-u-y-e-n-Zrp9b3PMIy8-unsplash.jpg" alt="Rich Bar">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Rich Bar</h3>
-                        
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
+            <div id="recenze-container" class="cards-grid">
+                <th:block th:replace="~{fragments/visitsLoad :: visits-fragment}"></th:block>
             </div>
+
+            <div class="load-more">
+                <button id="load-more-btn" class="load-more-button" data-page="1">
+                    Načíst další recenze
+                </button>
+            </div>
+
         </section>
-    </main> 
-    <footer>
-        <div class="footer-content">
-            
-            <div class="logo-container">
-                <a href="homepage.html" class="logo">Reviewed</a>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Navigate</h4>
-                <ul>
-                    <li><a href="explore.html">Explore</a></li>
-                    <li><a href="visits.html">My visits</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="insert.html">Add Review</a></li>
-                    <li><a href="friends.html">Friends</a></li>
-                </ul>
-            </div>
+    </main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Cookies</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <img src="../media/fotky/Gemini_Generated_Image_jsu2yejsu2yejsu2 (1).png" alt="food illustration">
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>Daniela Kotková 1.WT 2025</p>
-        </div>
-    </footer>
 </body>
 </html>

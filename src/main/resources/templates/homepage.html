@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="/homepage.css">
     <link rel="stylesheet" href="/footer.css">
     <script src="/nav.js" defer></script>
+    <script src="/arrows.js" defer></script>
+    <!-- Tyto dva řádky si přidej do <head> k ostatním stylům a skriptům -->
+    <link rel="stylesheet" href="/Authmodal.css">
+    <script src="/AuthModal.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,82 +22,11 @@
     <title>Reviewed</title>
 </head>
 <body>
-    <header>
-        <div class="nav-first">
-            <div>
-                <a href="/homepage" class="logo">Reviewed</a>
-            </div>
-
-            <nav class="nav-explore">
-                <a href="/explore">Restaurants</a>
-                <a href="/explore">Cafés</a>
-                <a href="/explore">Bars</a>
-            </nav>
-            
-            <nav class="nav-icons">
-                <a href="/profile">
-                    <span class="material-symbols-outlined">
-                        person
-                    </span>
-                </a>
-                <button id="menu-toggle" type="button" class="icon-button">
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-                </button>
-            </nav>
-        </div>
-
-        <div class="nav-second">
-            <nav class="nav-drop">
-                <a href="/homepage">
-                    <span class="material-symbols-outlined">
-                        home
-                    </span>
-                    Home
-                </a>
-                
-                <a href="/insert">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    Add review
-                </a>
-
-                <a href="/explore">
-                    <span class="material-symbols-outlined">
-                        explore
-                    </span>
-                    Explore
-                </a>
-                
-                <a href="/visits">
-                    <span class="material-symbols-outlined">
-                        apps
-                    </span>
-                    My visits
-                </a>
-                
-                <a href="/saved">
-                    <span class="material-symbols-outlined">
-                        bookmark
-                    </span>
-                    Saved
-                </a>
-                        
-                <a href="/friends">
-                    <span class="material-symbols-outlined">
-                        group
-                    </span>
-                    Friends
-                </a>
-            </nav>
-        </div>
-    </header>
+<header th:replace="~{fragments/header :: header}"></header>
     <main>
         <section class="about-us-section">
             <div class="about-us-stripe-solid">
-                <img  class="about-us-stripe" src="../media/fotky/Gemini_Generated_Image_rmn3awrmn3awrmn3.png" alt="food composition">
+                <img  class="about-us-stripe" src="/background_img.png" alt="food composition">
                 <article class="about-us">
                     <div class="about-us-text">
                         <h2>Reviewed</h2>
@@ -106,214 +39,56 @@
         
         <section class="reviews-section">
             <div class="reviews">
-                <h2>Recent reviews from your friends</h2>
+                <h2>Nedávno nahrané recenze</h2>
 
                 <div class="reviews-container">
-                    <button class="arrow">
+                    <button class="arrow" id="prevBtn">
                         <span class="material-symbols-outlined">
                             keyboard_arrow_left
                         </span>
                     </button>
-                    <div class="grid-cards-review">
+                    <div class="grid-cards-review" id="reviewsGrid">
                         
-                        <article class="card">
-                            <div class="card-image-placeholder">
-                                <img src="../media/fotky/ambitious-studio-rick-barrett-QjUY7auDzUQ-unsplash.jpg" alt="Cocktail at Bar Xyz">
-                            </div>
-                            
-                            <div class="card-content">
-                                <h3>Bar Xyz</h3>
-                                <div class="author-row">
-                                    <p>By:</p>
-                                    <h4>Joe Doe</h4>
-                                </div>
+                        <article class="card" th:each="r : ${seznamRecenzi}">
+                            <a  th:href="@{/review/{id}(id=${r.idObsahu})}">
 
-                                <div class="rating">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
+                            <div class="card-image-placeholder">
+
+                                    <th:block th:if="${r.fotky != null and !r.fotky.isEmpty()}">
+                                        <img th:src="@{/image/fotka/{id}(id=${r.fotky[0].idFotky})}"
+                                             alt="Náhled recenze"
+                                             style="width: 100%; height: 200px; object-fit: cover;"
+                                             loading="lazy">
+                                    </th:block>
+
+                                    <th:block th:if="${r.fotky == null or r.fotky.isEmpty()}">
+                                        <div style="width: 100%; height: 200px; background: #eee; display: flex; align-items: center; justify-content: center;">
+                                            <span class="material-symbols-outlined" style="font-size: 48px; color: #ccc;">image</span>
+                                        </div>
+                                    </th:block>
                                 </div>
-                                
-                                <a href="/review" class="show-more">Show more</a>
-                            </div>
+                                <div class="card-content">
+                                    <h3 th:text="${r.podnik?.nazev}"></h3>
+                                    <div class="author-row">
+                                        <p>Autor:</p>
+                                        <h4 th:text="${r.getJmenoProDivaka(prihlasenyId)}"></h4>
+                                    </div>
+                                    <div class="rating">
+                                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                            <span class="material-symbols-outlined"
+                                                  th:classappend="${i <= r.hodnoceni} ? 'filled' : ''">
+                                                star
+                                            </span>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </a>
+
                         </article>
 
-                        <article class="card">
-                            <div class="card-image-placeholder">
-                                <img src="../media/fotky/kateryna-senkevych-N7qAgJjCMss-unsplash.jpg" alt="grand cafe" >
-                            </div>
-                            
-                            <div class="card-content">
-                                <h3>Grand Cafe Prague</h3>
-                                <div class="author-row">
-                                    <p>By:</p>
-                                    <h4>Joe Doe</h4>
-                                </div>                        
-                                <div class="rating">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                                
-                                <a href="/review" class="show-more">Show more</a>
-                            </div>
-                        </article>
 
-                        <article class="card">
-                            <div class="card-image-placeholder">
-                                <img src="../media/fotky/breakslow-E6RTpqvOasU-unsplash.jpg" alt="Breakfast at Cafe On Paper">
-                            </div>
-                            
-                            <div class="card-content">
-                                <h3>Cafe On Paper</h3>
-                                <div class="author-row">
-                                    <p>By:</p>
-                                    <h4>Joe Doe</h4>
-                                </div>
-                                <div class="rating">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                                
-                                <a href="#" class="show-more">Show more</a>
-                            </div>
-                        </article>
-                        <article class="card">
-                            <div class="card-image-placeholder">
-                                <img src="../media/fotky/stefan-johnson-xIFbDeGcy44-unsplash.jpg" alt="Meal at Restaurant Abcde">
-                            </div>
-                            
-                            <div class="card-content">
-                                <h3>Restaurant Abcde</h3>
-                                <div class="author-row">
-                                    <p>By:</p>
-                                    <h4>Joe Doe</h4>
-                                </div> 
-                                <div class="rating">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                                
-                                <a href="#" class="show-more">Show more</a>
-                            </div>
-                        </article>
-                        <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/drew-beamer-bTN-zKFy9uA-unsplash.jpg" alt="Bar Old Time">
                     </div>
-
-                    <div class="card-content">
-                        <h3>Bar Old Time</h3>
-                        <div class="author-row">
-                            <p>By:</p>
-                            <h4>Joe Doe</h4>
-                        </div>                       
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-image-placeholder">
-                        <img src="../media/fotky/keghan-crossland-ZZxmc66SjfM-unsplash.jpg" alt="Cafee Modern">
-                    </div>
-
-                    <div class="card-content">
-                        <h3>Cafee Modern</h3>
-                        <div class="author-row">
-                            <p>By:</p>
-                            <h4>Joe Doe</h4>
-                        </div>
-                        <div class="rating">
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                            <span class="material-symbols-outlined">
-                                star
-                            </span>
-                        </div>
-
-                        <a href="#" class="show-more">Show more</a>
-                    </div>
-                </article>
-                    </div>
-                    <button class="arrow">
+                    <button class="arrow" id="nextBtn">
                         <span class="material-symbols-outlined">
                             keyboard_arrow_right
                         </span>
@@ -323,96 +98,32 @@
         </section>
         <section class="popular-section">
             
-            <h2>Popular places near you</h2>
+            <h2>Doporučujeme</h2>
             
             <div class="grid-cards-popular">
-                <article>
-                    <a class="popularcard" href="/place">
-                        <img src="../media/fotky/kateryna-senkevych-N7qAgJjCMss-unsplash.jpg" alt="grand cafe" >
-                        <h3>Grand Cafe Prague</h3>
-                        <p>Luxurious cafe in the center of Prague</p>
-                        <div class="rating">
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                        </div>
-                    </a>
-                </article>
-                
-                <article>
-                    <a class="popularcard" href="/place">
-                        <img src="../media/fotky/daan-evers-tKN1WXrzQ3s-unsplash.jpg"alt="Interior of The Urban Greenhouse">
-                        <h3>The Urban Greenhouse</h3>
-                        <p>Step into a lush escape from the concrete city at The Urban Greenhouse.</p>
-                        <div class="rating">
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                        </div>
-                    </a>
-                </article>
-
                 <article th:each="p : ${podnikyZDatabaze}">
-                    <a class="popularcard" th:href="@{/place}">
-                        <img src="/media/fotky/kateryna-senkevych-N7qAgJjCMss-unsplash.jpg" alt="cafe" >
+                    <a class="popularcard" th:href="@{/place/{id}(id=${p.idPodniku})}">
 
-                        <h3 th:text="${p.nazev}">Název podniku z DB</h3>
-                        <p th:text="${p.popis}">Popis podniku z DB</p>
+                        <div class="card-image-placeholder">
+                            <th:block th:if="${p.idTitulniFotky != null}">
+                                <img th:src="@{/image/fotka/{id}(id=${p.idTitulniFotky})}" loading="lazy">
+                            </th:block>
 
-                        <div class="rating">
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
-                            <span class="material-symbols-outlined">star</span>
+                            <div class="fallback-icon" th:if="${p.idTitulniFotky == null}">
+                                <span class="material-symbols-outlined">image</span>
+                            </div>
                         </div>
+                        <h3 th:text="${p.nazev}">Název podniku</h3>
+                        <p th:text="${p.popis}">Popis podniku</p>
                     </a>
                 </article>
             </div>
 
-            <a href="/explore" class="popular-bottom">See more</a>
+            <a href="/places" class="popular-bottom">Prozkoumat další</a>
 
         </section>
     </main>
-    <footer>
-        <div class="footer-content">
-            
-            <div class="logo-container">
-                <a href="/homepage" class="logo">Reviewed</a>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Navigate</h4>
-                <ul>
-                    <li><a href="/explore">Explore</a></li>
-                    <li><a href="/visits">My visits</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="/insert">Add Review</a></li>
-                    <li><a href="/friends">Friends</a></li>
-                </ul>
-            </div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Cookies</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <img src="../media/fotky/Gemini_Generated_Image_jsu2yejsu2yejsu2 (1).png" alt="food illustration">
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>Daniela Kotková 1.WT 2025</p>
-        </div>
-    </footer>
 </body>
 </html>

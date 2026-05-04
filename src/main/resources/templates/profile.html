@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,171 +16,66 @@
     <title>Reviewed</title>
 </head>
 <body>
-    <header>
-        <div class="nav-first">
-            <div>
-                <a href="/" class="logo">Reviewed</a>
-            </div>
-
-            <h1 class="page-name">My profile</h1>
-
-            <nav class="nav-explore">
-                <a href="/explore">Restaurants</a>
-                <a href="/explore">Cafés</a>
-                <a href="/explore">Bars</a>
-            </nav>
-
-            <nav class="nav-icons">
-                <a href="/profile">
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-                </a>
-                <button id="menu-toggle" type="button" class="icon-button">
-                            <span class="material-symbols-outlined">
-                                menu
-                            </span>
-                </button>
-            </nav>
-        </div>
-
-        <div class="nav-second">
-            <nav class="nav-drop">
-                <a href="/homepage">
-                            <span class="material-symbols-outlined">
-                                home
-                            </span>
-                    Home
-                </a>
-
-                <a href="/insert">
-                            <span class="material-symbols-outlined">
-                                add
-                            </span>
-                    Add review
-                </a>
-
-                <a href="/explore">
-                            <span class="material-symbols-outlined">
-                                explore
-                            </span>
-                    Explore
-                </a>
-
-                <a href="/visits">
-                            <span class="material-symbols-outlined">
-                                apps
-                            </span>
-                    My visits
-                </a>
-
-                <a href="/saved">
-                            <span class="material-symbols-outlined">
-                                bookmark
-                            </span>
-                    Saved
-                </a>
-
-                <a href="/friends">
-                            <span class="material-symbols-outlined">
-                                group
-                            </span>
-                    Friends
-                </a>
-            </nav>
-        </div>
-    </header>
+<header th:replace="~{fragments/header :: header}"></header>
     <main>
         <section class="section-basic">
             <div class="basic-info">
                 <div class="profile-photo">
-                    <img src="../media//fotky/user_3177440.png" alt="Default profile picture">
+                    <img src="/default_pfp.png" alt="Default profile picture">
                 </div>
                 
                 <div class="bio">
-                    <h3>Profile caption:</h3>
-                    <h4>Alea iacta est</h4>
+                    <h4 th:text="${uzivatel?.popisProfilu}"></h4>
                 </div>
 
                 <div class="name">
-                    <h2 class="first-name">Jane</h2>
-                    <h2 class="last-name">Doe</h2>
-                </div> 
+                    <h2 class="first-name" th:text="${uzivatel?.prezdivka}"></h2>
+                </div>
             </div> 
         </section>
     <div class="content">
         <section class="private-info">
             <div class="info-grid">
                 <p class="label">Email:</p>
-                <p class="data">example@gmail.com</p>
-                <p class="label">Phone number:</p>
-                <p class="data">+420 724 678 592</p>
-                <p class="label">Country:</p>
-                <p class="data">Czech republic</p>
-                <p class="label">City:</p>
-                <p class="data">Prague</p>
-                <p class="label">Profile status:</p>
-                <p class="data">Private</p>
+                <p class="data" th:text="${uzivatel?.email}"></p>
+                <p class="label">Křestní jméno:</p>
+                <p class="data" th:text="${uzivatel?.krestniJmeno}" ></p>
+                <p class="label">Příjmení:</p>
+                <p class="data" th:text="${uzivatel?.prijmeni}"></p>
+                <p class="label">Město:</p>
+                <p class="data" th:text="${uzivatel?.mesto?.nazev}"></p>
+                <p class="label">Datum Registrace:</p>
+                <p class="data" th:text="${#temporals.format(uzivatel?.datumRegistrace,  'dd. MM. yyyy')}"></p>
              </div>
         </section>
         
         <section class="profile-settings">
-            <h3>Profile settings</h3>
+            <h3>Nastavení profilu</h3>
             <div class="profile-settings-grid">
-                <button class="setting" type="button">Name</button>
-                <button class="setting" type="button">Profile picture</button>
-                <button class="setting" type="button">Profile caption</button>
-                <button class="setting" type="button">Profile privacy</button>
+                <button class="setting" type="button">Přezdívka</button>
+                <button class="setting" type="button">Profilová fotka</button>
+                <button class="setting" type="button">Popis Profilu</button>
+                <button class="setting" type="button">Jméno a Příjmení</button>
             </div>
         </section>
     </div>
         <section class="account-settings">
-            <h3>Account settings</h3>
+            <h3>Nastavení účtu</h3>
             <div class="account-settings-grid">
-                <button class="setting" type="button">Password</button>
+                <button class="setting" type="button">Heslo</button>
                 <button class="setting" type="button">Email</button>
-                <button class="setting" type="button">Language</button>
-                <button class="setting" type="button">Location</button> 
-                <button class="setting" type="button">Currency</button>
-                <button class="setting" type="button">Notifications</button>
+                <button class="setting" type="button">Jazyk</button>
+                <button class="setting" type="button">Lokace</button>
+                <button class="setting" type="button">Měna</button>
+                <form th:action="@{/logout}" method="post" class="logout-form">
+                    <button type="submit" class="setting">
+                        Odhlásit se
+                    </button>
+                </form>
             </div>
         </section>
     </main>
-    <footer>
-        <div class="footer-content">
-            
-            <div class="logo-container">
-                <a href="homepage.html" class="logo">Reviewed</a>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Navigate</h4>
-                <ul>
-                    <li><a href="explore.html">Explore</a></li>
-                    <li><a href="visits.html">My visits</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="insert.html">Add Review</a></li>
-                    <li><a href="friends.html">Friends</a></li>
-                </ul>
-            </div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">Cookies</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <img src="../media/fotky/Gemini_Generated_Image_jsu2yejsu2yejsu2 (1).png" alt="food illustration">
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>Daniela Kotková 1.WT 2025</p>
-        </div>
-    </footer>
 </body>
 </html>

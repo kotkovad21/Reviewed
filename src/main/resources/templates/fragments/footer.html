@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<footer th:fragment="footer">
+    <div class="footer-content">
+
+        <div class="logo-container">
+            <a href="/" class="logo">Reviewed</a>
+        </div>
+
+        <div class="footer-col">
+            <h4>Navigace</h4>
+            <ul>
+                <li><a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">Přidat recenzi</a></li>
+                <li><a sec:authorize="isAuthenticated()" href="/insert">Přidat recenzi</a></li>
+                <li><a href="/reviews">Recenze</a></li>
+                <li><a href="/places">Podniky</a></li>
+                <li><a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">Moje Recenze</a></li>
+                <li><a sec:authorize="isAuthenticated()" href="/visits">Moje Recenze</a></li>
+                <li><a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">Uložené</a></li>
+                <li><a sec:authorize="isAuthenticated()" href="/saved" >Uložené</a></li>
+                <li><a sec:authorize="isAnonymous()" href="#" onclick="showAuthModal(event)">Přátelé</a></li>
+                <li><a sec:authorize="isAuthenticated()" href="/friends">Přátelé</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Cookies</a></li>
+                <li><a href="#">Kontaktujte nás</a></li>
+            </ul>
+        </div>
+        <div>
+            <img src="/footer_img.png" alt="food illustration">
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>Daniela Kotková 1.WT 2026</p>
+    </div>
+
+    <div th:replace="~{fragments/authModal :: authModal}"></div>
+</footer>
+</body>
+</html>

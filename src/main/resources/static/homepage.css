@@ -101,7 +101,11 @@ body {
   gap: 2rem;
   width: 100%;
 }
-
+/* Kontejner pro fotku */
+.card-image-placeholder {
+    width: 100%;
+    /* Výšku necháme na obrázku nebo placeholderu */
+}
 .popularcard {
   background-color: var(--white-color);
   border-radius: 10px;
@@ -199,8 +203,8 @@ body {
   display: flex;             /* Karty se řadí vedle sebe */
   flex-wrap: nowrap;         /* Zakáže zalamování na nový řádek */
   overflow-x: auto;          /* Zapne vodorovný posuvník, když je obsah příliš široký */
-  gap: 2rem;                
-  padding: 2rem;            
+  gap: 2rem;
+  padding: 2rem;
   max-width: 55vw;
   scroll-snap-type: x mandatory; /* Povinné přichytávání na ose X */
   -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
@@ -211,7 +215,6 @@ body {
 }
 .card {
   flex: 0 0 auto;
-  scroll-snap-align: center;
   background-color: var(--white-color);
   max-width: 20vw;
   width: 15rem;
@@ -221,20 +224,43 @@ body {
   color: black;
   transition: transform 0.2s;
   border: 5px solid var(--middle-color);
-
+scroll-snap-align: center;
 }
 .card:hover {
   transform: translateY(-2px);
 }
 
+.card a{
+    text-decoration: none;
+}
 .card-image-placeholder img {
   width: 100%;
   height: 17rem;
-  display: block; /* Odstraní malou mezeru pod obrázkem, která vzniká u inline prvků */
+  display: block;
   border-radius: 4px;
   margin-bottom: 12px;
   object-fit: cover;
   border: 5px solid var(--darker-color);
+  box-sizing: border-box; /* EXTRÉMNĚ DŮLEŽITÉ - udrží border uvnitř rozměru */
+}
+
+/* Styl pro ten růžový čtverec s ikonou, když fotka chybí */
+.fallback-icon {
+  width: 100%;
+  height: 17rem;
+  background-color: #fce4ec;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  border: 5px solid var(--darker-color);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallback-icon .material-symbols-outlined {
+  color: #f06292;
+  font-size: 3rem;
 }
 .card-content{
   display: flex;
@@ -251,17 +277,37 @@ body {
 .card .author-row{
   display: flex;
   gap: .5rem;
+
+}
+.author-row p {
+    text-decoration: none;
+    color: var(--darker-color);
 }
 .author-row h4{
   font-weight: 700;
   color: var(--dark-color);
 }
+/* 1. Základní nastavení pro všechny hvězdy (plné i prázdné) */
+.rating .material-symbols-outlined {
+    /* Všechny jsou v základu prázdné */
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    color: var(--darker-color); /* Tvoje původní tmavá barva */
+    font-size: 24px;
+    display: inline-block;
+}
+
+/* 2. Nastavení pouze pro ty vyplněné */
+.rating .material-symbols-outlined.filled {
+    /* Jen těmto zapneme výplň */
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24 !important;
+    /* Barva zůstává stejná jako u prázdných, nebo si ji uprav podle libosti */
+    color: var(--darker-color);
+}
+/* Kontejner (gap a margin zůstávají) */
 .card .rating {
   display: flex;
   gap: 4px;
   margin-bottom: 8px;
-  color: var(--darker-color);
-  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 .arrow {
   background: none;

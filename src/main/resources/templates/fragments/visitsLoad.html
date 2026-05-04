@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="visits-fragment">
+    <article class="card" th:each="r : ${seznamRecenzi}">
+        <a th:href="@{/review/{id}(id=${r.idObsahu})}">
+
+            <div class="card-image-placeholder">
+                <th:block th:if="${r.idTitulniFotky != null}">
+                    <img th:src="@{/image/fotka/{id}(id=${r.idTitulniFotky})}"
+                         alt="Náhled recenze"
+                         loading="lazy">
+                </th:block>
+
+                <th:block th:if="${r.idTitulniFotky == null}">
+                    <div class="fallback-box">
+                        <span class="material-symbols-outlined">image</span>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="card-content">
+                <h3 th:text="${r.podnik?.nazev}">Bar Xyz</h3>
+                <div class="author-row" th:if="${zobrazitAutora}">
+                    <p>Autor:</p>
+                    <h4 th:text="${r.getJmenoProDivaka(prihlasenyId)}"></h4>
+                </div>
+                <div class="rating">
+                    <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                        <span class="material-symbols-outlined"
+                              th:classappend="${i <= r.hodnoceni} ? 'filled' : ''">
+                            star
+                        </span>
+                    </th:block>
+                </div>
+            </div>
+        </a>
+
+    </article>
+</th:block>
+</html>

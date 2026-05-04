@@ -13,7 +13,7 @@ body {
 /* Vytvoření vrstvy s obrázkem na pozadí*/
 .section-basic::after {
   content: "";
-  background-image: url(../media/fotky/Gemini_Generated_Image_rmn3awrmn3awrmn3.png);
+  background-image: url(/background_img.png);
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -112,7 +112,7 @@ body {
   grid-template-columns: 180px 1fr;
   align-items: center;
   background-color: var(--white-color);
-  max-width: 40vw;
+  max-width: 42vw;
   padding: 4rem;
   border-radius: 10px;
   box-shadow: 12px 12px 0px var(--dark-color);
@@ -131,6 +131,7 @@ body {
   color: var(--darker-color);
   text-align: right;
   padding-right: 2rem;
+    text-wrap: nowrap;
 }
 
 .data {

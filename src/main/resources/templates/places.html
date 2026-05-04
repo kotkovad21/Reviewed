@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/saved.css">
+    <link rel="stylesheet" href="/footer.css">
+    <script src="/nav.js" defer></script>
+    <script src="/visits.js" defer></script>
+    <link rel="stylesheet" href="/authModal.css">
+    <script src="/authModal.js" defer></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <title>Reviewed</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main class="saved-container">
+        <h2 class="section-title">Podniky</h2>
+
+        <form id="filterForm" action="/places" method="GET">
+            <section class="filters">
+
+                <div class="filter-menu-wrapper">
+                    <button class="filters-button" type="button" onclick="toggleTagMenu()">
+                        <span class="material-symbols-outlined">filter_list</span>
+                    </button>
+
+                    <div id="tagMenu" class="tag-dropdown">
+                        <div th:each="stitek : ${vsechnyStitky}"
+                             class="tag-option"
+                             th:data-tagname="${stitek.nazev}"
+                             onclick="addTag(this.getAttribute('data-tagname'))">
+                            <span th:text="'+ ' + ${stitek.nazev}">+ Štítek</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- places.html -->
+                <select name="order" onchange="this.form.submit()">
+                    <!-- Pokud je param.order prázdný, vybere se tato možnost -->
+                    <option value="popular" th:selected="${param.order == null or param.order[0] == 'popular'}">
+                        Nejpopulárnější
+                    </option>
+                    <option value="rating" th:selected="${param.order != null and param.order[0] == 'rating'}">
+                        Nejlepší hodnocení
+                    </option>
+                    <option value="abc" th:selected="${param.order != null and param.order[0] == 'abc'}">
+                        Abecedně
+                    </option>
+                </select>
+
+                <select name="business" onchange="this.form.submit()">
+                    <option value="all">všechny typy</option>
+                    <option th:each="typ : ${typyPodniku}"
+                            th:value="${typ.idTypuPodniku}"
+                            th:text="${typ.nazev}"
+                            th:selected="${param.business != null and param.business[0] == typ.idTypuPodniku.toString()}">Typ</option>
+                </select>
+
+                <div class="filter" th:each="activeTag : ${aktivniStitky}">
+                    <p class="filter-name" th:text="${activeTag}"></p>
+                    <input type="hidden" name="tags" th:value="${activeTag}">
+                    <button class="filter-remove" type="button" onclick="removeTag(this)">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </section>
+        </form>
+        <section class="saved-section">
+
+            <div id="recenze-container" class="cards-grid">
+                <th:block th:replace="~{fragments/placesLoad :: places-fragment}"></th:block>
+            </div>
+            <div class="load-more">
+                <button id="load-more-btn" class="load-more-button" data-page="1">Načíst další</button>
+            </div>
+        </section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

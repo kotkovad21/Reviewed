@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Tento fragment si můžeme vložit kamkoliv -->
+<div th:fragment="authModal" id="authModal" class="auth-modal-overlay" style="display: none;">
+    <div class="auth-modal-box">
+        <h2>Je potřeba se přihlásit</h2>
+        <p>Pro přístup k této funkci si prosím vytvořte účet, nebo se přihlaste.</p>
+        <div class="auth-modal-buttons">
+            <a href="/login" class="login-button">Přihlásit se</a>
+            <a href="/register" class="register-button">Registrovat</a>
+            <button onclick="closeAuthModal()" class="back-button">
+                Zpět
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
