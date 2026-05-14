@@ -13,12 +13,12 @@ public class Fotka {
     private Long idFotky;
 
     @Column(name = "ID_RECENZE")
-    private Long idRecenze; // Nebo vazba @ManyToOne na Recenzi, oboje funguje
+    private Long idRecenze;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "FOTKA")
-    private byte[] data; // Toto je ten BLOB
+    private byte[] data;
 
     @Column(name = "NAZEV_SOUBORU")
     private String nazevSouboru;
@@ -41,7 +41,6 @@ public class Fotka {
         this.data = data;
     }
 
-    // Přidej i Getter (bude se hodit pro zobrazování)
     public byte[] getData() {
         return data;
     }

@@ -11,7 +11,6 @@ public class Mesto {
     @Column(name = "nazev")
     private String nazev;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdMesta() { return idMesta; }
     public void setIdMesta(Long idMesta) { this.idMesta = idMesta; }
 

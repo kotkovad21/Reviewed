@@ -16,7 +16,7 @@ public class Recenze {
     private Integer hodnoceni;
 
     @Column(name = "datum_navstevy")
-    @DateTimeFormat(pattern = "yyyy-MM-dd") // Pomáhá Springu zpracovat datum z formuláře
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate datumNavstevy;
 
     @Column(name = "utrata")
@@ -27,7 +27,7 @@ public class Recenze {
     private Podnik podnik;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // Tato anotace je klíčová!
+    @MapsId
     @JoinColumn(name = "id_obsahu")
     private Obsah obsah = new Obsah();
 
@@ -38,7 +38,6 @@ public class Recenze {
     @Transient
     private Long idTitulniFotky;
 
-    // Vygeneruj si k tomu Getter a Setter:
     public Long getIdTitulniFotky() {
         return idTitulniFotky;
     }
@@ -46,10 +45,7 @@ public class Recenze {
     public void setIdTitulniFotky(Long idTitulniFotky) {
         this.idTitulniFotky = idTitulniFotky;
     }
-    // Přidej Getter pro fotky
     public List<Fotka> getFotky() { return fotky; }
-
-    // --- GETTERY A SETTERY ---
 
     public Long getIdObsahu() { return idObsahu; }
     public void setIdObsahu(Long idObsahu) { this.idObsahu = idObsahu; }
@@ -69,18 +65,13 @@ public class Recenze {
     public Obsah getObsah() { return obsah; }
     public void setObsah(Obsah obsah) { this.obsah = obsah; }
 
-
-    // ... tvé stávající gettery a settery (např. getObsah)
-
     public String getJmenoProDivaka(Long idPrihlaseneho) {
         if (obsah.getViditelnost().getIdViditelnosti() == 1L) {
-            // Je to anonym - ukážeme jméno jen autorovi
             if (obsah.getUzivatel().getIdUzivatele().equals(idPrihlaseneho)) {
                 return obsah.getUzivatel().getPrezdivka();
             }
             return "Anonym";
         }
-        // Veřejné a ostatní recenze - klasické jméno
         return obsah.getUzivatel().getPrezdivka();
     }
 

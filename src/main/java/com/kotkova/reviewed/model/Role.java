@@ -15,7 +15,6 @@ import jakarta.persistence.*;
         @Column(name = "NAZEV", nullable = false)
         private String nazevRole;
 
-        // Gettery a settery
         public Long getIdRole() { return idRole; }
         public void setIdRole(Long idRole) { this.idRole = idRole; }
         public String getNazevRole() { return nazevRole; }

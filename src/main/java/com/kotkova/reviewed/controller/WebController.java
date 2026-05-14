@@ -51,43 +51,35 @@ public class WebController {
     }
 
     @GetMapping("/")
-    public String showHomepage(Model model, java.security.Principal principal) { // PŘIDÁNO: Principal
-        // 1. Podniky (tohle máš správně)
+    public String showHomepage(Model model, java.security.Principal principal) {
         var seznamPodniku = podnikService.ziskejNejnovejsiPodniky();
         model.addAttribute("podnikyZDatabaze", seznamPodniku);
 
-        // 2. Zjistíme, kdo je u počítače (idPrihlaseneho)
         Uzivatel idPrihlaseneho = null;
         if (principal != null) {
             Uzivatel u = uzivatelService.ziskejUzivatelePodleEmailu(principal.getName());
             if (u != null) idPrihlaseneho = u;
         }
 
-        // 3. TADY JE TA HLAVNÍ ZMĚNA:
-        // Místo té staré metody použijeme ziskejStrankuRecenzi s limitem 6
         org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(0, 6);
 
-        // Tato služba už v sobě má ten chytrý filtr, co jsme psali minule!
         var stranka = recenzeService.ziskejStrankuRecenzi(pageable, idPrihlaseneho);
 
-        // Pošleme do HTML jen těch bezpečných 6 kousků
         model.addAttribute("seznamRecenzi", stranka.getContent());
 
-        // NOVÉ: Pošleme ID do HTML, abychom poznali vlastní anonymní recenze
         model.addAttribute("prihlasenyId", idPrihlaseneho);
 
         return "homepage";
     }
     @GetMapping("/place")
     public String showPlacePage() {
-        return "place"; // Toto hledá soubor src/main/resources/templates/place.html
+        return "place";
     }
 
     @GetMapping("/insert")
     public String showInsertForm(@RequestParam(required = false) Long podnikId,
                                  @RequestParam(required = false) Long typId,
                                  Model model) {
-        // 1. Načteme data ze všech služeb
         List<Podnik> podniky = podnikService.ziskejVsechnyPodniky();
         List<TypPodniku> typy = typPodnikuService.ziskejVsechnyTypy();
         List<Viditelnost> viditelnosti = viditelnostService.ziskejVsechnyViditelnosti();
@@ -128,12 +120,10 @@ public class WebController {
             default:       sort = org.springframework.data.domain.Sort.by("idObsahu").descending(); break;
         }
 
-        // OPRAVA 1: Přidali jsme 'sort' jako třetí parametr
 Pageable pageable = PageRequest.of(0, 12);
 
         var prvniStranka = recenzeService.ziskejFiltrovaneMojeRecenze(pageable, idPrihlaseneho, business, tags);
 
-        // OPRAVA 2: Posíláme VŠECHNY potřebné věci do HTML
         model.addAttribute("seznamRecenzi", prvniStranka.getContent());
         model.addAttribute("vsechnyStitky", stitekService.ziskejVsechnyStitky());
         model.addAttribute("typyPodniku", typPodnikuService.ziskejVsechnyTypy()); // Pro select s podniky
@@ -159,7 +149,6 @@ Pageable pageable = PageRequest.of(0, 12);
             default:       sort = org.springframework.data.domain.Sort.by("idObsahu").descending(); break;
         }
 
-        // OPRAVA 3: I tady musíme přidat 'sort'
         Pageable pageable = PageRequest.of(page, 12);
 
         Page<Recenze> recenzePage = recenzeService.ziskejFiltrovaneMojeRecenze(pageable, idPrihlaseneho, business, tags);
@@ -175,18 +164,15 @@ Pageable pageable = PageRequest.of(0, 12);
         Podnik vybranyPodnik = podnikService.ziskejPodnikPodleId(id);
         model.addAttribute("podnik", vybranyPodnik);
 
-        // 1. Získáme přihlášeného uživatele[cite: 11]
         Uzivatel prihlaseny = (principal != null) ?
                 uzivatelService.ziskejUzivatelePodleEmailu(principal.getName()) : null;
 
-        // 2. Předáme ho do servisy, která teď díky roli 2 nebo 3 „odemkne“ vše[cite: 11]
         List<Recenze> recenzeKPodniku = recenzeService.ziskejViditelneRecenzeProPodnik(id, prihlaseny);
         model.addAttribute("seznamRecenzi", recenzeKPodniku);
 
         model.addAttribute("prumer", podnikService.ziskejPrumernyRating(id));
         model.addAttribute("prihlasenyId", prihlaseny != null ? prihlaseny.getIdUzivatele() : null);
 
-        // Kontrola pro tlačítko uložení[cite: 11]
         model.addAttribute("jeUlozen", podnikService.jePodnikUlozen(id, prihlaseny != null ? prihlaseny.getIdUzivatele() : null));
 
         return "place";
@@ -197,8 +183,6 @@ Pageable pageable = PageRequest.of(0, 12);
         Recenze vybranaRecenze = recenzeService.ziskejRecenziPodleId(id);
         model.addAttribute("recenze", vybranaRecenze);
 
-        // 2. Zjistíme ID přihlášeného uživatele
-        // Proměnnou si připravíme nahoře, aby byla viditelná pro model.addAttribute níže
         Long prihlasenyId = null;
 
         if (principal != null) {
@@ -208,11 +192,8 @@ Pageable pageable = PageRequest.of(0, 12);
             }
         }
 
-        // 3. Pošleme ID do HTML pod jménem "prihlasenyId"
-        // Teď už proměnná 'u' nesvítí červeně, protože používáme 'prihlasenyId'
         model.addAttribute("prihlasenyId", prihlasenyId);
 
-        // 4. Otevřeme soubor review.html
         return "review";
     }
 
@@ -227,7 +208,7 @@ Pageable pageable = PageRequest.of(0, 12);
 
             if (recenze.getPodnik() == null || recenze.getObsah().getText() == null || recenze.getObsah().getText().trim().isEmpty()) {
                 model.addAttribute("errorMessage", "Vyplňte prosím všechna povinná pole (Podnik a Text).");
-                znovuNactiDataProFormular(model); // Aby nespadl Thymeleaf
+                znovuNactiDataProFormular(model);
                 return "insert";
             }
 
@@ -235,7 +216,6 @@ Pageable pageable = PageRequest.of(0, 12);
                 recenze.setHodnoceni(0);
             }
 
-            // OPRAVA ŠTÍTKŮ: Odstraníme duplikáty, pokud nám je HTML formulář poslal omylem vícekrát
             if (recenze.getObsah() != null && recenze.getObsah().getStitky() != null) {
                 java.util.Map<Long, Stitek> unikatniStitky = new java.util.LinkedHashMap<>();
                 for (Stitek s : recenze.getObsah().getStitky()) {
@@ -259,19 +239,16 @@ Pageable pageable = PageRequest.of(0, 12);
 
             recenze.getObsah().setRecenze(recenze);
 
-            // 2. Uložíme recenzi (tím získáme ID_OBSAHU, které potřebujeme pro fotky)
             Recenze ulozena = recenzeService.ulozRecenzi(recenze);
 
-            // 3. Zpracování nahraných fotek
             if (soubory != null) {
                 for (MultipartFile soubor : soubory) {
                     if (!soubor.isEmpty()) {
                         Fotka novaFotka = new Fotka();
-                        novaFotka.setData(soubor.getBytes()); // Převede soubor na byte[] (BLOB)
-                        novaFotka.setIdRecenze(ulozena.getIdObsahu()); // Propojí fotku s recenzí
+                        novaFotka.setData(soubor.getBytes());
+                        novaFotka.setIdRecenze(ulozena.getIdObsahu());
 
                         novaFotka.setNazevSouboru(soubor.getOriginalFilename());
-                        // Uložíme fotku (předpokládám, že máš fotkaService nebo fotkaRepository)
 
                         String unikatniNazev = java.util.UUID.randomUUID().toString().substring(0, 20);
                         novaFotka.setNazevSouboru(unikatniNazev);
@@ -295,22 +272,18 @@ Pageable pageable = PageRequest.of(0, 12);
         model.addAttribute("viditelnosti", viditelnostService.ziskejVsechnyViditelnosti());
         model.addAttribute("vsechnyStitky", stitekService.ziskejVsechnyStitky());
     }
-    // PŘIDAT DO WebControlleru
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login"; // Zobrazí templates/login.html
+        return "login";
     }
 
     @PostMapping("/review/{id}/delete")
-    @ResponseBody // Říkáme, že nevracíme HTML stránku, ale jen potvrzení (OK)
+    @ResponseBody
     public ResponseEntity<String> smazatRecenzi(@PathVariable Long id, java.security.Principal principal) {
-        // 1. Získáme přihlášeného uživatele
         Uzivatel prihlaseny = uzivatelService.ziskejUzivatelePodleEmailu(principal.getName());
 
-        // 2. Najdeme recenzi
         Recenze r = recenzeService.ziskejRecenziPodleId(id);
 
-        // 3. BEZPEČNOSTNÍ KONTROLA: Patří ta recenze jemu?
         if (r.getObsah().getUzivatel().getIdUzivatele().equals(prihlaseny.getIdUzivatele())) {
             recenzeService.oznacJakoSmazanou(id);
             return ResponseEntity.ok("Smazáno");
@@ -322,7 +295,7 @@ Pageable pageable = PageRequest.of(0, 12);
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("uzivatel", new Uzivatel());
-        return "register"; // vrací register.html
+        return "register";
     }
 
     @PostMapping("/register")
@@ -333,7 +306,6 @@ Pageable pageable = PageRequest.of(0, 12);
 
         boolean maChybu = false;
 
-        // 1. KONTROLA UNIKÁTNOSTI
         if (uzivatelService.existujeEmail(email)) {
             model.addAttribute("chybaEmail", "Tento e-mail už je zaregistrovaný.");
             maChybu = true;
@@ -343,16 +315,13 @@ Pageable pageable = PageRequest.of(0, 12);
             maChybu = true;
         }
 
-        // 2. POKUD JE CHYBA, VRÁTÍME HO ZPĚT NA FORMULÁŘ
         if (maChybu) {
-            model.addAttribute("uzivatel", new Uzivatel()); // Aby nespadl Thymeleaf[cite: 16]
-            // Předvyplníme mu to, co už zadal (aby to nemusel psát znovu)
+            model.addAttribute("uzivatel", new Uzivatel());
             model.addAttribute("zadanyEmail", email);
             model.addAttribute("zadanaPrezdivka", prezdivka);
             return "register";
         }
 
-        // 3. VŠE JE OK, ULOŽÍME (tvůj původní kód)
         Uzivatel novy = new Uzivatel();
         novy.setEmail(email);
         novy.setPrezdivka(prezdivka);
@@ -366,22 +335,20 @@ Pageable pageable = PageRequest.of(0, 12);
         return "redirect:/login";
     }
     @GetMapping("/profil/{id}")
-    public String verejnyProfil(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUser) {
-        // 1. Uživatel, na jehož profil koukáme
+    public String verejnyProfil(@PathVariable Long id,
+                                Model model,
+                                @AuthenticationPrincipal CustomUserDetails customUser) {
         Uzivatel autor = uzivatelService.ziskejUzivatelePodleId(id);
 
-        // 2. Uživatel, který u počítače sedí a dívá se
         Uzivatel prihlaseny = (customUser != null) ? uzivatelService.ziskejUzivatelePodleEmailu(customUser.getUsername()) : null;
         Long mojeId = (prihlaseny != null) ? prihlaseny.getIdUzivatele() : null;
 
-        // 3. Voláme novou zabezpečenou metodu (posíláme ID autora a objekt přihlášeného)
         List<Recenze> recenzeAutora = recenzeService.ziskejRecenzePodleUzivatele(id, prihlaseny);
 
         model.addAttribute("autor", autor);
         model.addAttribute("recenze", recenzeAutora);
         model.addAttribute("mojeId", mojeId);
 
-        // Zbytek metody s přátelstvím (zadostOdeslana, uzJsmePratele) zůstává úplně beze změny...
         boolean uzJsmePratele = false;
         boolean zadostOdeslana = false;
 
@@ -402,23 +369,19 @@ Pageable pageable = PageRequest.of(0, 12);
         if (user != null && !user.getIdUzivatele().equals(id)) {
             pratelstviService.posliZadost(user.getIdUzivatele(), id);
         }
-        // Po kliknutí uživatele přesměrujeme zpět na ten samý profil
         return "redirect:/profil/" + id;
     }
 
-    // Seznam uložených podniků
     @GetMapping("/saved")
     public String showSavedPlaces(Model model, @AuthenticationPrincipal CustomUserDetails user) {
         if (user == null) return "redirect:/login";
 
-        // Získáme všechny uložené vazby pro přihlášeného uživatele
         List<UlozenyPodnik> ulozene = podnikService.ziskejUlozenePodnikyUzivatele(user.getIdUzivatele());
         model.addAttribute("ulozenePodniky", ulozene);
 
         return "saved";
     }
 
-    // Akce uložení (volaná tlačítkem u detailu podniku)
     @PostMapping("/place/{id}/save")
     public String savePlace(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
         if (user != null) {
@@ -434,14 +397,11 @@ Pageable pageable = PageRequest.of(0, 12);
                                   @AuthenticationPrincipal CustomUserDetails customUser,
                                   Model model) {
 
-        // 1. Místo pouhého ID získáme celého uživatele z DB
         Uzivatel prihlaseny = (customUser != null) ?
                 uzivatelService.ziskejUzivatelePodleEmailu(customUser.getUsername()) : null;
 
         Pageable pageable = PageRequest.of(0, 12);
 
-        // 2. Do servisy posíláme objekt 'prihlaseny'
-        // (Ujisti se, že jsi v RecenzeService upravila i metodu pro filtrování, aby brala Uzivatele)
         var stranka = recenzeService.ziskejGlobalniFiltrovaneRecenze(pageable, prihlaseny, business, tags);
 
         model.addAttribute("seznamRecenzi", stranka.getContent());
@@ -456,7 +416,6 @@ Pageable pageable = PageRequest.of(0, 12);
         return "reviews";
     }
 
-    // Pomocná metoda pro sjednocení řazení (aby nebyl kód 2x)
     private org.springframework.data.domain.Sort ziskejSortPodleStringu(String order) {
         return switch (order) {
             case "oldest" -> org.springframework.data.domain.Sort.by("idObsahu").ascending();
@@ -466,7 +425,6 @@ Pageable pageable = PageRequest.of(0, 12);
         };
     }
 
-    // Ve WebController.java pro Explore Load More
     @GetMapping("/reviews/load-more")
     public String loadMoreReviews(@RequestParam(defaultValue = "0") int page,
                                   @AuthenticationPrincipal CustomUserDetails customUser,
@@ -547,7 +505,6 @@ Pageable pageable = PageRequest.of(0, 12);
         return "friends";
     }
 
-    // NOVÉ: API pro živý našeptávač v searchbaru
     @GetMapping("/api/users/search")
     @ResponseBody
     public ResponseEntity<List<java.util.Map<String, Object>>> liveSearchUsers(@RequestParam("q") String query) {
@@ -557,7 +514,6 @@ Pageable pageable = PageRequest.of(0, 12);
 
         List<Uzivatel> nalezeni = uzivatelService.hledejUzivatele(query);
 
-        // Očistíme to a pošleme ven jen ID a přezdívku, abychom zbytečně nezatěžovali síť
         List<java.util.Map<String, Object>> vysledky = nalezeni.stream()
                 .map(u -> {
                     java.util.Map<String, Object> mapa = new java.util.HashMap<>();
@@ -565,7 +521,6 @@ Pageable pageable = PageRequest.of(0, 12);
                     mapa.put("prezdivka", u.getPrezdivka());
                     return mapa;
                 })
-                .limit(5) // Omezíme počet výsledků v bublině našeptávače max na 5
                 .toList();
 
         return ResponseEntity.ok(vysledky);
@@ -583,17 +538,14 @@ Pageable pageable = PageRequest.of(0, 12);
         return "redirect:/friends";
     }
     @PostMapping("/review/{id}/visibility")
-    @ResponseBody // Znamená to, že nevracíme HTML stránku, ale jen potvrzení pro JavaScript
+    @ResponseBody
     public ResponseEntity<String> zmenViditelnost(@PathVariable Long id,
                                                   @RequestParam Long idViditelnosti,
                                                   java.security.Principal principal) {
-        // 1. Získáme přihlášeného uživatele
         Uzivatel prihlaseny = uzivatelService.ziskejUzivatelePodleEmailu(principal.getName());
 
-        // 2. Najdeme recenzi
         Recenze r = recenzeService.ziskejRecenziPodleId(id);
 
-        // 3. BEZPEČNOSTNÍ KONTROLA: Patří ta recenze jemu?
         if (r.getObsah().getUzivatel().getIdUzivatele().equals(prihlaseny.getIdUzivatele())) {
             recenzeService.zmenViditelnost(id, idViditelnosti);
             return ResponseEntity.ok("Viditelnost úspěšně změněna");

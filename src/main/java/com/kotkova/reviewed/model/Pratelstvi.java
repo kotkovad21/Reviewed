@@ -7,14 +7,12 @@ import java.time.LocalDate;
 @Table(name = "PRATELSTVI")
 public class Pratelstvi {
 
-    // Zde vkládáme ten náš složený klíč
     @EmbeddedId
     private PratelstviKey id = new PratelstviKey();
 
     @Column(name = "datum_vzniku")
     private LocalDate datumVzniku;
 
-    // @MapsId říká: "Do tohoto uživatele vlož to číslo, co je v klíči pod 'idZadatele'"
     @ManyToOne
     @MapsId("idZadatele")
     @JoinColumn(name = "id_zadatele")
@@ -29,7 +27,6 @@ public class Pratelstvi {
     @JoinColumn(name = "id_stavu")
     private Stav stav;
 
-    // --- GETTERY A SETTERY ---
 
     public PratelstviKey getId() { return id; }
     public void setId(PratelstviKey id) { this.id = id; }

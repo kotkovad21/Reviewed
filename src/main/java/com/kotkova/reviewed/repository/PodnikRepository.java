@@ -15,7 +15,6 @@ public interface PodnikRepository extends JpaRepository<Podnik, Long> {
 
     List<Podnik> findTop3ByOrderByIdPodnikuDesc();
 
-    // 1. Základní filtry
     @Query(value = "SELECT p.* FROM PODNIKY p " +
             "LEFT JOIN (SELECT ID_PODNIKU, MAX(PRUMERNE_HODNOCENI) as PRUMERNE_HODNOCENI, MAX(POCET_RECENZI) as POCET_RECENZI FROM VW_PODNIKY_STATS GROUP BY ID_PODNIKU) v ON p.ID_PODNIKU = v.ID_PODNIKU " +
             "WHERE (:typId IS NULL OR p.ID_TYPU_PODNIKU = :typId) " +
@@ -37,7 +36,6 @@ public interface PodnikRepository extends JpaRepository<Podnik, Long> {
             @Param("tagCount") Long tagCount,
             Pageable pageable);
 
-    // 2. Abecedně
     @Query(value = "SELECT p.* FROM PODNIKY p " +
             "LEFT JOIN (SELECT ID_PODNIKU, MAX(PRUMERNE_HODNOCENI) as PRUMERNE_HODNOCENI, MAX(POCET_RECENZI) as POCET_RECENZI FROM VW_PODNIKY_STATS GROUP BY ID_PODNIKU) v ON p.ID_PODNIKU = v.ID_PODNIKU " +
             "WHERE (:typId IS NULL OR p.ID_TYPU_PODNIKU = :typId) " +
@@ -56,7 +54,6 @@ public interface PodnikRepository extends JpaRepository<Podnik, Long> {
             @Param("tagCount") Long tagCount,
             Pageable pageable);
 
-    // 3. Nejlepší hodnocení
     @Query(value = "SELECT p.* FROM PODNIKY p " +
             "LEFT JOIN (SELECT ID_PODNIKU, MAX(PRUMERNE_HODNOCENI) as PRUMERNE_HODNOCENI, MAX(POCET_RECENZI) as POCET_RECENZI FROM VW_PODNIKY_STATS GROUP BY ID_PODNIKU) v ON p.ID_PODNIKU = v.ID_PODNIKU " +
             "WHERE (:typId IS NULL OR p.ID_TYPU_PODNIKU = :typId) " +
@@ -75,7 +72,6 @@ public interface PodnikRepository extends JpaRepository<Podnik, Long> {
             @Param("tagCount") Long tagCount,
             Pageable pageable);
 
-    // 4. Popularita
     @Query(value = "SELECT p.* FROM PODNIKY p " +
             "LEFT JOIN (SELECT ID_PODNIKU, MAX(PRUMERNE_HODNOCENI) as PRUMERNE_HODNOCENI, MAX(POCET_RECENZI) as POCET_RECENZI FROM VW_PODNIKY_STATS GROUP BY ID_PODNIKU) v ON p.ID_PODNIKU = v.ID_PODNIKU " +
             "WHERE (:typId IS NULL OR p.ID_TYPU_PODNIKU = :typId) " +

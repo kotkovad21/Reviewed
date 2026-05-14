@@ -14,7 +14,6 @@ public class PratelstviKey implements Serializable {
     @Column(name = "id_prijemce")
     private Long idPrijemce;
 
-    // Prázdný konstruktor pro Hibernate (nutnost)
     public PratelstviKey() {}
 
     public PratelstviKey(Long idZadatele, Long idPrijemce) {
@@ -28,8 +27,6 @@ public class PratelstviKey implements Serializable {
     public Long getIdPrijemce() { return idPrijemce; }
     public void setIdPrijemce(Long idPrijemce) { this.idPrijemce = idPrijemce; }
 
-    // Pro složené klíče jsou tyto dvě metody naprosto nezbytné,
-    // aby Java poznala, jestli jsou dvě přátelství stejná.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

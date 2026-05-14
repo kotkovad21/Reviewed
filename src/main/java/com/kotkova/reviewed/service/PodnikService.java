@@ -29,7 +29,6 @@ public class PodnikService {
     private final StitekRepository stitekRepository;
 
 
-    // Tímto říkáme Springu, ať nám repozitář "připraví"
     public PodnikService(PodnikRepository podnikRepository,
                          RecenzeRepository recenzeRepository,
                          FotkaRepository fotkaRepository,
@@ -46,7 +45,6 @@ public class PodnikService {
 
 
 
-    // Metoda, která vytáhne z databáze úplně všechny podniky
     public List<Podnik> ziskejVsechnyPodniky() {
         return podnikRepository.findAll();
     }
@@ -55,16 +53,14 @@ public class PodnikService {
         List<Podnik> podniky = podnikRepository.findTop3ByOrderByIdPodnikuDesc();
 
         for (Podnik p : podniky) {
-            // 1. Vypočítáme průměr a uložíme ho do transientní proměnné
             p.setPrumernyRating(ziskejPrumernyRating(p.getIdPodniku()));
 
-            // 2. Najdeme titulní fotku (vezmeme první recenzi, která má fotku)
             List<Recenze> recenzePodniku = recenzeRepository.findByPodnikIdPodniku(p.getIdPodniku());
             for (Recenze r : recenzePodniku) {
                 List<Long> fotkaIds = fotkaRepository.najdiIdFotekPodleRecenze(r.getIdObsahu());
                 if (!fotkaIds.isEmpty()) {
                     p.setIdTitulniFotky(fotkaIds.get(0));
-                    break; // Jakmile najdeme jednu fotku, končíme hledání
+                    break;
                 }
             }
         }
@@ -73,7 +69,6 @@ public class PodnikService {
     public Podnik ziskejPodnikPodleId(Long id) {
         Podnik p = podnikRepository.findById(id).orElse(null);
         if (p != null) {
-            // NOVÉ: Když otevřeme detail podniku, načteme mu jeho agregované štítky
             p.setStitky(stitekRepository.najdiStitkyProPodnik(p.getIdPodniku()));
         }
         return p;
@@ -94,24 +89,19 @@ public class PodnikService {
     public void nastavTitulniFotku(Podnik p) {
         if (p == null) return;
 
-        // Zavoláme ten nový dotaz, který hledá fotky v recenzích daného podniku[cite: 21]
         List<Long> fotkaIds = fotkaRepository.najdiIdFotekPodlePodniku(p.getIdPodniku());
 
         if (!fotkaIds.isEmpty()) {
-            // Nastavíme první nalezenou fotku jako titulní
             p.setIdTitulniFotky(fotkaIds.get(0));
         }
     }
 
     public void ulozPodnikProUzivatele(Long idPodniku, Long idUzivatele) {
-        // 1. KONTROLA: Už si tento uživatel tento podnik uložil?
         var existujici = ulozenyPodnikRepository.findByUzivatel_IdUzivateleAndPodnik_IdPodniku(idUzivatele, idPodniku);
 
         if (existujici.isPresent()) {
-            // 2. Pokud už tam je, tak ho uživatel chce odebrat (Unsave)
             ulozenyPodnikRepository.delete(existujici.get());
         } else {
-            // 3. Pokud tam není, vytvoříme novou vazbu (Save)
             UlozenyPodnik novy = new UlozenyPodnik();
             Uzivatel u = uzivatelService.ziskejUzivatelePodleId(idUzivatele);
             Podnik p = this.ziskejPodnikPodleId(idPodniku);
@@ -128,10 +118,7 @@ public class PodnikService {
     public List<UlozenyPodnik> ziskejUlozenePodnikyUzivatele(Long idUzivatele) {
         List<UlozenyPodnik> seznam = ulozenyPodnikRepository.findByUzivatel_IdUzivateleOrderByDatumVytvoreniDesc(idUzivatele);
 
-        // Volitelně: Pokud chceš u podniků v seznamu rovnou vidět fotky jako u recenzí,
-        // můžeš zde projít seznam a nastavit idTitulniFotky (stejně jako v RecenzeService)
         for (UlozenyPodnik up : seznam) {
-            // Předpokládám metodu pro získání fotky v podnikService
             this.nastavTitulniFotku(up.getPodnik());
         }
 
@@ -157,11 +144,9 @@ public class PodnikService {
         return stranka;
     }
 
-    // Přidej do PodnikService.java
     public boolean jePodnikUlozen(Long idPodniku, Long idUzivatele) {
         if (idUzivatele == null) return false;
 
-        // Použijeme tvou existující metodu z repozitáře
         return ulozenyPodnikRepository
                 .findByUzivatel_IdUzivateleAndPodnik_IdPodniku(idUzivatele, idPodniku)
                 .isPresent();

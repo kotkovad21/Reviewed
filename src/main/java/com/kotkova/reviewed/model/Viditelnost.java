@@ -14,7 +14,6 @@ public class Viditelnost {
 
     public String getIkona() {
 
-        // Tady rozhodujeme, jakou ikonu poslat podle ID v databázi
         switch (idViditelnosti.intValue()) {
             case 1: // Anonymní
             case 2: // Veřejné

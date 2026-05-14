@@ -3,7 +3,7 @@ package com.kotkova.reviewed.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 @Entity
-@Table(name = "UZIVATELE") // Uprav podle svého SQL schématu
+@Table(name = "UZIVATELE")
 public class Uzivatel {
 
     @Column(name = "krestni_jmeno")
@@ -12,7 +12,7 @@ public class Uzivatel {
     @Column(name = "prijmeni")
     private String prijmeni;
 
-    @Column(name = "prezdivka") // Může to být i 'jmeno' nebo 'username'
+    @Column(name = "prezdivka")
     private String prezdivka;
 
     @Column(name = "email")
@@ -32,7 +32,7 @@ public class Uzivatel {
     private Mesto mesto;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_ROLE", nullable = false) // Odpovídá sloupci v DB
+    @JoinColumn(name = "ID_ROLE", nullable = false)
     private Role role;
 
     @Id
@@ -41,7 +41,6 @@ public class Uzivatel {
     @Column(name = "ID_UZIVATELE")
     private Long idUzivatele;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdUzivatele() { return idUzivatele; }
     public void setIdUzivatele(Long idUzivatele) { this.idUzivatele = idUzivatele; }
 

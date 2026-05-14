@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class UlozenyPodnikId implements Serializable {
-    private Long uzivatel; // Jméno musí odpovídat poli v entitě
+    private Long uzivatel;
     private Long podnik;
 
     public UlozenyPodnikId() {}
@@ -14,7 +14,6 @@ public class UlozenyPodnikId implements Serializable {
         this.podnik = podnik;
     }
 
-    // Povinné metody pro složené klíče
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

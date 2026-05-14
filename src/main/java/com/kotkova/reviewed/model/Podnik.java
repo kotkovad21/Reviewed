@@ -5,10 +5,10 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "PODNIKY") // Musí přesně odpovídat názvu tabulky v Oracle
+@Table(name = "PODNIKY")
 public class Podnik {
 
-    @Id // Označuje primární klíč
+    @Id
     @Column(name = "id_podniku")
     private Long idPodniku;
 
@@ -27,9 +27,7 @@ public class Podnik {
     @Column(name = "oteviraci_doba")
     private String oteviraciDoba;
 
-    // @ManyToOne znamená: "Více různých podniků může mít jeden stejný typ (např. vícero kaváren)"
     @ManyToOne
-    // @JoinColumn říká Springu, podle jakého sloupečku to má v databázi spojit
     @JoinColumn(name = "id_typu_podniku")
     private TypPodniku typPodniku;
 
@@ -40,7 +38,6 @@ public class Podnik {
     @Transient
     private List<Stitek> stitky;
 
-    // mappedBy = "podnik" znamená: "Springu, podívej se do třídy Recenze na proměnnou 'podnik', tam zjistíš, jak se to má propojit."
     @OneToMany(mappedBy = "podnik")
     private List<Recenze> recenze;
 

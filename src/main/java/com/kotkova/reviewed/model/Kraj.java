@@ -11,7 +11,6 @@ public class Kraj {
     @Column(name = "nazev")
     private String nazev;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdKraje() { return idKraje; }
     public void setIdKraje(Long idKraje) { this.idKraje = idKraje; }
 

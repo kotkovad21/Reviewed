@@ -16,7 +16,6 @@ public class UzivatelService {
     private final RoleRepository roleRepository;
     private final MestoRepository mestoRepository;
 
-    // Všechny závislosti v jednom konstruktoru (Spring je tam doplní sám)
     public UzivatelService(UzivatelRepository uzivatelRepository,
                            RoleRepository roleRepository,
                            MestoRepository mestoRepository) {
@@ -34,14 +33,10 @@ public class UzivatelService {
     }
 
     public void registrujNovehoUzivatele(Uzivatel u) {
-        // 1. Nastavíme dnešní datum registrace
         u.setDatumRegistrace(java.time.LocalDate.now());
-        // 2. Nastavíme defaultní hodnoty pro textová pole (No Nullable v DB)
         if (u.getKrestniJmeno() == null) u.setKrestniJmeno("Jméno");
         if (u.getPrijmeni() == null) u.setPrijmeni("Příjmení");
 
-        // 3. Najdeme v DB město a roli s ID 1 (předpokládáme, že tam jsou)
-        // .orElseThrow vyhodí chybu, pokud ID 1 v tabulce MESTO/ROLE neexistuje
         Role defaultniRole = roleRepository.findById(1L)
                 .orElseThrow(() -> new RuntimeException("Chyba: Role s ID 1 neexistuje v DB!"));
         Mesto defaultniMesto = mestoRepository.findById(1L)
@@ -50,7 +45,6 @@ public class UzivatelService {
         u.setRole(defaultniRole);
         u.setMesto(defaultniMesto);
 
-        // 4. Uložíme uživatele
         uzivatelRepository.save(u);
     }
 

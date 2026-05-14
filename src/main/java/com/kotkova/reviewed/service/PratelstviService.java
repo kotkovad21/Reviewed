@@ -26,7 +26,6 @@ public class PratelstviService {
 
     public List<Uzivatel> ziskejPratele(Long mojeId) {
         List<Pratelstvi> vazby = pratelstviRepository.najdiPotvrzenePratele(mojeId);
-        // Převedeme vazby na seznam uživatelů (ten druhý člověk ve vazbě)
         return vazby.stream()
                 .map(p -> p.getZadatel().getIdUzivatele().equals(mojeId) ? p.getPrijemce() : p.getZadatel())
                 .toList();
@@ -43,16 +42,12 @@ public class PratelstviService {
     }
 
     public void smazPratelstvi(Long id1, Long id2) {
-        // Zkusíme smazat obě kombinace (já-přítel i přítel-já)
-        pratelstviRepository.deleteById(new PratelstviKey(id1, id2));
-        pratelstviRepository.deleteById(new PratelstviKey(id2, id1));
+        pratelstviRepository.smazPratelstviBezpecne(id1, id2);
     }
 
-    // Metoda pro odeslání nové žádosti o přátelství
     public void posliZadost(Long zadatelId, Long prijemceId) {
-        // Kontrola, zda vazba už neexistuje v nějakém směru
         if (zjistiStavVazby(zadatelId, prijemceId) != null) {
-            return; // Vazba už existuje, nic neděláme
+            return;
         }
 
         Uzivatel zadatel = uzivatelRepository.findById(zadatelId).orElse(null);
@@ -66,27 +61,24 @@ public class PratelstviService {
             zadost.setDatumVzniku(java.time.LocalDate.now());
 
             Stav ceka = new Stav();
-            ceka.setIdStavu(1L); // 1 = Čekající žádost
+            ceka.setIdStavu(1L);
             zadost.setStav(ceka);
 
             pratelstviRepository.save(zadost);
         }
     }
 
-    // Pomocná metoda pro zjištění, jestli se ti dva už neznají
     public String zjistiStavVazby(Long id1, Long id2) {
-        // Kontrola, jestli jsem poslal já jemu
         var vazba1 = pratelstviRepository.findById(new PratelstviKey(id1, id2));
         if (vazba1.isPresent()) {
             return vazba1.get().getStav().getIdStavu() == 2L ? "PRIJATO" : "ZADOST";
         }
 
-        // Kontrola, jestli poslal on mně
         var vazba2 = pratelstviRepository.findById(new PratelstviKey(id2, id1));
         if (vazba2.isPresent()) {
             return vazba2.get().getStav().getIdStavu() == 2L ? "PRIJATO" : "ZADOST";
         }
 
-        return null; // Žádná vazba
+        return null;
     }
 }

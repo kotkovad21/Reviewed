@@ -17,7 +17,6 @@ public class Stitek {
     @Transient
     private List<Podnik> podniky;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdStitku() { return idStitku; }
     public void setIdStitku(Long idStitku) { this.idStitku = idStitku; }
     public String getNazev() { return nazev; }

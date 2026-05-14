@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = "OBSAHY")
 public class Obsah {
 
-    // @Lob říká Springu, že v databázi je to velký text (CLOB)
     @Lob
     @Column(name = "text")
     private String text;
@@ -17,14 +16,13 @@ public class Obsah {
     @Column(name = "datum_vytvoreni")
     private LocalDate datumVytvoreni;
 
-    // Přidej toto k ostatním proměnným v Obsah.java
     @ManyToOne
-    @JoinColumn(name = "id_uzivatele") // Sloupeček v tabulce OBSAHY
+    @JoinColumn(name = "id_uzivatele")
     private Uzivatel uzivatel;
 
     @ManyToMany
     @JoinTable(
-            name = "OBSAHY_STITKY", // Název vazební tabulky v DB
+            name = "OBSAHY_STITKY",
             joinColumns = @JoinColumn(name = "id_obsahu"),
             inverseJoinColumns = @JoinColumn(name = "id_stitku")
     )
@@ -40,7 +38,7 @@ public class Obsah {
 
     @ManyToMany
     @JoinTable(
-            name = "OBSAHY_STITKY", // název propojovací tabulky v DB
+            name = "OBSAHY_STITKY",
             joinColumns = @JoinColumn(name = "id_obsahu"),
             inverseJoinColumns = @JoinColumn(name = "id_stitku")
     )
@@ -48,7 +46,7 @@ public class Obsah {
     private List<Stitek> stitky = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "id_viditelnosti") // Sloupec v tabulce OBSAHY
+    @JoinColumn(name = "id_viditelnosti")
     private Viditelnost viditelnost;
 
     @Column(name = "typ_obsahu")

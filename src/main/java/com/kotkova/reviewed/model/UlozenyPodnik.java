@@ -21,7 +21,6 @@ public class UlozenyPodnik {
     @Column(name = "DATUM_VYTVORENI", nullable = false)
     private LocalDate datumVytvoreni = LocalDate.now();
 
-    // Gettery a settery
 
     public Uzivatel getUzivatel() {
         return uzivatel;

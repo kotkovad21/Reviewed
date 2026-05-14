@@ -34,24 +34,20 @@ public interface RecenzeRepository extends JpaRepository<Recenze, Long> {
             nativeQuery = true)
     Page<Recenze> najdiVerejneRecenze(Pageable pageable);
 
-    // Zde Spring Data JPA zvládne vygenerovat count samo, protože to není nativeQuery
     Page<Recenze> findByObsahUzivatelIdUzivateleOrderByIdObsahuDesc(Long idUzivatele, Pageable pageable);
 
-    // List nevrací Page, nepotřebuje countQuery
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE v.ID_PODNIKU = :idPodniku AND (v.ID_VIDITELNOSTI IN (1, 2) OR v.AUTOR_ID = :mojeId " +
             "OR (v.ID_VIDITELNOSTI = 3 AND EXISTS (SELECT 1 FROM VW_AKTIVNI_PRATELE f WHERE f.UZIVATEL_ID = :mojeId AND f.PRITEL_ID = v.AUTOR_ID))) " +
             "ORDER BY r.ID_OBSAHU DESC", nativeQuery = true)
     List<Recenze> najdiViditelneRecenzePodniku(@Param("idPodniku") Long idPodniku, @Param("mojeId") Long mojeId);
 
-    // List nevrací Page, nepotřebuje countQuery
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE v.ID_PODNIKU = :idPodniku AND v.ID_VIDITELNOSTI IN (1, 2) ORDER BY r.ID_OBSAHU DESC", nativeQuery = true)
     List<Recenze> najdiVerejneRecenzePodniku(@Param("idPodniku") Long idPodniku);
 
     List<Recenze> findByObsah_UzivatelOrderByIdObsahuDesc(Uzivatel uzivatel);
 
-    // 1. Osobní filtrované recenze
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE v.AUTOR_ID = :mojeId " +
             "AND (:typId IS NULL OR v.ID_TYPU_PODNIKU = :typId) " +
@@ -70,7 +66,6 @@ public interface RecenzeRepository extends JpaRepository<Recenze, Long> {
             nativeQuery = true)
     Page<Recenze> najdiMojeFiltrovaneRecenze(@Param("mojeId") Long mojeId, @Param("typId") Long typId, @Param("tags") List<String> tags, @Param("tagCount") Long tagCount, Pageable pageable);
 
-    // 2. Globální filtrované recenze
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE (v.ID_VIDITELNOSTI IN (1, 2) OR v.AUTOR_ID = :mojeId " +
             "OR (v.ID_VIDITELNOSTI = 3 AND EXISTS (SELECT 1 FROM VW_AKTIVNI_PRATELE f WHERE f.UZIVATEL_ID = :mojeId AND f.PRITEL_ID = v.AUTOR_ID))) " +
@@ -91,18 +86,15 @@ public interface RecenzeRepository extends JpaRepository<Recenze, Long> {
             nativeQuery = true)
     Page<Recenze> najdiVsechnyRecenzeProAdmina(Pageable pageable);
 
-    // List nevrací Page, nepotřebuje countQuery
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU WHERE v.ID_PODNIKU = :idPodniku ORDER BY r.ID_OBSAHU DESC", nativeQuery = true)
     List<Recenze> najdiVsechnyRecenzePodnikuProAdmina(@Param("idPodniku") Long idPodniku);
 
-    // 1. Profil konkrétního uživatele - filtruje viditelnost podle toho, kdo se dívá
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE v.AUTOR_ID = :idAutora AND (v.ID_VIDITELNOSTI IN (1, 2) OR :mojeId = v.AUTOR_ID " +
             "OR (v.ID_VIDITELNOSTI = 3 AND EXISTS (SELECT 1 FROM VW_AKTIVNI_PRATELE f WHERE f.UZIVATEL_ID = :mojeId AND f.PRITEL_ID = v.AUTOR_ID))) " +
             "ORDER BY r.ID_OBSAHU DESC", nativeQuery = true)
     List<Recenze> najdiViditelneRecenzeUzivatele(@Param("idAutora") Long idAutora, @Param("mojeId") Long mojeId);
 
-    // 2. Profil uživatele z pohledu Admina (vidí vše kromě smazaných)
     @Query(value = "SELECT r.* FROM RECENZE r JOIN VW_RECENZE_DETAIL v ON r.ID_OBSAHU = v.ID_OBSAHU " +
             "WHERE v.AUTOR_ID = :idAutora ORDER BY r.ID_OBSAHU DESC", nativeQuery = true)
     List<Recenze> najdiVsechnyRecenzeUzivateleProAdmina(@Param("idAutora") Long idAutora);

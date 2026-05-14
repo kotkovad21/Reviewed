@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypPodnikuRepository extends JpaRepository<TypPodniku, Long> {
-    // JpaRepository nám automaticky vytvoří metody jako findAll()
 }

@@ -18,10 +18,9 @@ public class Adresa {
     private String psc;
 
     @ManyToOne
-    @JoinColumn(name = "id_mesta") // Toto jméno sloupce musí odpovídat tvé Oracle tabulce
+    @JoinColumn(name = "id_mesta")
     private Mesto mesto;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdAdresy() { return idAdresy; }
     public void setIdAdresy(Long idAdresy) { this.idAdresy = idAdresy; }
 

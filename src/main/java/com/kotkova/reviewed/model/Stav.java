@@ -13,7 +13,6 @@ public class Stav {
     @Column(name = "nazev")
     private String nazev;
 
-    // Gettery a Settery
     public Long getIdStavu() { return idStavu; }
     public void setIdStavu(Long idStavu) { this.idStavu = idStavu; }
 

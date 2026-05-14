@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MestoRepository extends JpaRepository<Mesto, Long> {
-    // Tady taky základ
 }

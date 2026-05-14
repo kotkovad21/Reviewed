@@ -17,7 +17,6 @@ public class TypPodniku {
     @OneToMany(mappedBy = "typPodniku")
     private List<Podnik> podniky;
 
-    // --- GETTERY A SETTERY ---
     public Long getIdTypuPodniku() { return idTypuPodniku; }
     public void setIdTypuPodniku(Long idTypuPodniku) { this.idTypuPodniku = idTypuPodniku; }
 
