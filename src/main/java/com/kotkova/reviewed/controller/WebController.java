@@ -483,6 +483,7 @@ Pageable pageable = PageRequest.of(0, 12);
         Long mojeId = user.getIdUzivatele();
         model.addAttribute("zadosti", pratelstviService.ziskejZadosti(mojeId));
         model.addAttribute("pratele", pratelstviService.ziskejPratele(mojeId));
+        model.addAttribute("odeslaneZadosti", pratelstviService.ziskejOdeslaneZadosti(mojeId));
 
         // NOVÉ: Pokud uživatel něco hledá v Searchbaru
         if (search != null && !search.trim().isEmpty()) {

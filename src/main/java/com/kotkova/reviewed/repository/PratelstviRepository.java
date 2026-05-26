@@ -19,6 +19,8 @@ public interface PratelstviRepository extends JpaRepository<Pratelstvi, Pratelst
     @Query("SELECT p FROM Pratelstvi p WHERE (p.zadatel.idUzivatele = :id OR p.prijemce.idUzivatele = :id) AND p.stav.idStavu = 2")
     List<Pratelstvi> najdiPotvrzenePratele(@Param("id") Long idUzivatele);
 
+    List<Pratelstvi> findByZadatelIdUzivateleAndStavIdStavu(Long idZadatele, Long idStavu);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Pratelstvi p WHERE " +

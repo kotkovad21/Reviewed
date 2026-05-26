@@ -81,4 +81,10 @@ public class PratelstviService {
 
         return null;
     }
+
+    public List<Pratelstvi> ziskejOdeslaneZadosti(Long id) {
+        // Stav 1L u tebe znamená "Čekající žádost"
+        return pratelstviRepository.findByZadatelIdUzivateleAndStavIdStavu(id, 1L);
+    }
+
 }

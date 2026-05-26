@@ -42,8 +42,27 @@
                         </div>
 
                     </div>
-                </div>
 
+                </div>
+                <section class="requests-section" th:if="${!#lists.isEmpty(odeslaneZadosti)}">
+                    <h2>Odeslané žádosti</h2>
+                    <div class="requests-grid">
+                        <div class="request-card" th:each="z : ${odeslaneZadosti}">
+
+                            <a th:href="@{/profil/{id}(id=${z.prijemce.idUzivatele})}">
+                                <div class="fallback-icon"><span class="material-symbols-outlined">person</span></div>
+                                <span class="user-name" th:text="${z.prijemce.prezdivka}"></span>
+                            </a>
+
+                            <div class="actions">
+                                <form th:action="@{/friends/reject/{id}(id=${z.prijemce.idUzivatele})}" method="post">
+                                    <button type="submit" class="btn-reject">Zrušit žádost</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
             <section class="friends-list">
                 <h2>Moji přátelé</h2>
                 <div class="cards-grid">
